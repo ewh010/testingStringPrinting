@@ -22,8 +22,7 @@ GCC_OUTPUT=$(CSOURCE:.c=.s)
 VERILOG_OUTPUT=$(GCC_OUTPUT:.s=.v)
 
 # handy line to comiple your verilog code as well, change deps as need
-mips: adder.v alu.v and.v control.v dataMemory.v getJumpAddr.v memory.v mux.v pc.v registers.v signExtend_16_32.v pipelinedMIPS.v stats.v syscall.v pipeline.v 
-    iverilog mips.v -o mips
+mips: adder.v alu.v and.v control.v dataMemory.v getJumpAddr.v memory.v mux.v pc.v registers.v signExtend_16_32.v pipelinedMIPS.v stats.v syscall.v pipeline.v iverilog mips.v -o mips
 
 all: $(OBJECTS)
     # finally build an executable
