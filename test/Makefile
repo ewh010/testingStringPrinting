@@ -31,7 +31,7 @@ all: $(OBJECTS)
 	$(LD) $(LDFLAGS) $(OBJECTS) -o $(BIN_OUTPUT)
 
   # now link to a motorola SRecord
-  $(LD) $(LDFLAGS) --oformat=srec $(OBJECTS) -o $(GCC_OUTPUT)
+	$(LD) $(LDFLAGS) --oformat=srec $(OBJECTS) -o $(GCC_OUTPUT)
   # convert the SRecord file into a Verilog file
   $(SREC) $(GCC_OUTPUT) -Byte-swap 4 -o $(VERILOG_OUTPUT) -VMem
 
