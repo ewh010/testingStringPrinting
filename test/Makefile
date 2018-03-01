@@ -25,23 +25,23 @@ VERILOG_OUTPUT=$(GCC_OUTPUT:.s=.v)
 mips: adder.v alu.v and.v control.v dataMemory.v getJumpAddr.v memory.v mux.v pc.v registers.v signExtend_16_32.v pipelinedMIPS.v stats.v syscall.v pipeline.v iverilog mips.v -o mips
 
 all: $(OBJECTS)
-    # finally build an executable
-    # link twice, once to generate an ELF MIPS executable
-    # you can run mipsel-linux-objdump on this to inspect
-    $(LD) $(LDFLAGS) $(OBJECTS) -o $(BIN_OUTPUT)
+  # finally build an executable
+  # link twice, once to generate an ELF MIPS executable
+  # you can run mipsel-linux-objdump on this to inspect
+	$(LD) $(LDFLAGS) $(OBJECTS) -o $(BIN_OUTPUT)
 
-    # now link to a motorola SRecord
-    $(LD) $(LDFLAGS) --oformat=srec $(OBJECTS) -o $(GCC_OUTPUT)
-    # convert the SRecord file into a Verilog file
-    $(SREC) $(GCC_OUTPUT) -Byte-swap 4 -o $(VERILOG_OUTPUT) -VMem
+  # now link to a motorola SRecord
+  $(LD) $(LDFLAGS) --oformat=srec $(OBJECTS) -o $(GCC_OUTPUT)
+  # convert the SRecord file into a Verilog file
+  $(SREC) $(GCC_OUTPUT) -Byte-swap 4 -o $(VERILOG_OUTPUT) -VMem
 
 %.o: %.c
-    # compile C to object files as usual
-    $(CC) $(CFLAGS) -c $< -o $@
+  # compile C to object files as usual
+  $(CC) $(CFLAGS) -c $< -o $@
 
 %.o: %.s
-    # assemble to a motorola srecord file
-    $(AS) $< -o $@
+  # assemble to a motorola srecord file
+  $(AS) $< -o $@
 
 clean:
-    rm -f $(OUTPUT) $(OBJECTS) mips a.out
+  rm -f $(OUTPUT) $(OBJECTS) mips a.out
