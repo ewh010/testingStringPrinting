@@ -29,15 +29,19 @@
  * Control Signals                                                                              *
  *-------------------------------------------------------------------------------------------------*/
 
- `define REGDST 10
- `define JUMP 9
- `define BRANCH 8
- `define MEMREAD 7
- `define MEMTOREG 6
- `define ALUOP 5:3
- `define REGWRITE 2
- `define ALUSRC 1
- `define MEMWRITE 0
+ // EX Signals
+ `define REGDST_E 4
+ `define ALUSRC_E 3
+ `define ALUOP_E 2:0
+
+ // MEM Signals
+ `define MEMWRITE_M 2
+ `define MEMTOREG_M 1
+ `define REGWRITE_M 0
+
+ // WB Signals
+ `define REGWRITE_W 1
+ `define MEMTOREG_W 0
 
 /*-------------------------------------------------------------------------------------------------*
  * Instruction Fields                                                                              *
