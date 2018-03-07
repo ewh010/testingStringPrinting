@@ -2,7 +2,7 @@
 // dataMemory.v
 
 /* dataMemory module: handles write and read data*/
-module dataMemory(input clk, input memWrite, input memRead, input [31:0] address, input [31:0] writeData, output reg [31:0] readData);
+module Data_Memory(input clk, input memWrite, input memRead, input [31:0] address, input [31:0] writeData, output reg [31:0] readData);
 
 reg [31:0] memory[32'h7ffffffc>>2: (32'h7ffffffc>>2)-256]; // define memory from stack pointer shift right 2 to 256 less than that to make room
 

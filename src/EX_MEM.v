@@ -1,21 +1,23 @@
-// Ryan Pencak
 // EX_MEM.v
 
-/* EX to MEM module */
-module EX_MEM(input clock, input [1:0] WB, input [2:0] MEMOut, input [4:0] regRD, input [31:0] ALUOut, input [31:0] WriteDataE, output reg [1:0] WBreg, output reg [2:0] MEMreg, outputreg  [31:0] ALUreg, output reg [31:0] WriteDataM, output reg  [4:0] RegRDreg)
-	initial
-	begin
-		WDreg = 0;
-		MEMreg = 0;
-		ALUreg = 0;
-		WriteDataM = 0;
-		RegRDreg = 0;
+/* EX to MEM module: handles signals from EX to MEM */
+module EX_MEM(input clk, input [2:0] MEM_E, input [1:0] WB_E, input [31:0] ALUOut_E, input [31:0] WriteData_E, input [4:0] WriteReg_E, output reg [2:0] MEM_M, output reg [1:0] WB_M, output reg [31:0] ALUOut_M, output reg [31:0] WriteData_M, output reg [4:0] WriteReg_M)
+
+	initial begin
+		MEM_M = 0;
+		WD_M = 0;
+		ALU_M = 0;
+		WriteData_M = 0;
+		WriteReg_M = 0;
 	end
 
-	always @(posedge clock)
+	always @(posedge clk)
 	begin
-		WBreg = WB;
-		MEMreg = MEMOut;
-		ALUreg = ALUOut;
-		RegRDreg = regRD; 
+		MEM_M = MEM_E;
+		WB_M = WB_E;
+		ALUOut_M = ALUOut_E;
+		WriteReg_M = WriteData_E;
+		WriteReg_M = WriteReg_E;
 	end
+
+endmodule

@@ -2,7 +2,7 @@
 // and.v
 
 /* andGate module: simple and gate with two inputs */
-module andGate(input branch, input zero, output reg and_out);
+module And_Gate(input branch, input zero, output reg and_out);
 
 always @(*)
 begin

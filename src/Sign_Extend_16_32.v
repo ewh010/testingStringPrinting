@@ -1,8 +1,8 @@
 // Ryan Pencak
-// signExtend_16_32.v
+// Sign_Extend_16_32.v
 
-/*signExtend_16_32 module: extends register from 16 to 32 bits*/
-module signExtend_16_32(input [31:0] instr, output reg [31:0] out_value);
+/* Sign_Extend_16_32 module: extends register from 16 to 32 bits*/
+module Sign_Extend_16_32(input [31:0] instr, output reg [31:0] out_value);
 
   always @(*)
   begin
@@ -12,7 +12,7 @@ module signExtend_16_32(input [31:0] instr, output reg [31:0] out_value);
 
     else // else sign extend
       out_value = {{16{instr[15]}}, instr[15:0]};
-      
+
   end
 
 endmodule

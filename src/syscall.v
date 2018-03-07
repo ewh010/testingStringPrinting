@@ -1,8 +1,8 @@
 // Ryan Pencak
-// syscall.v
+// Syscall.v
 
-/* sycscall module: determine and execute syscall */
-module syscall(input syscall_control, input [31:0] v0, input [31:0] a0, output reg stat_control);
+/* Sycscall module: determine and execute syscall */
+module Syscall(input syscall_control, input [31:0] v0, input [31:0] a0, output reg stat_control);
 
   initial begin
     stat_control = 0;

@@ -1,8 +1,8 @@
 // Ryan Pencak
-// pc.v
+// PC.v
 
-/* pc module: sets the output to the input on a clock */
-module pc(input clk, input [31:0] nextPC, output reg [31:0] currPC);
+/* PC module: sets the output to the input on a clock */
+module PC(input clk, input [31:0] nextPC, output reg [31:0] currPC);
 
 initial
 begin

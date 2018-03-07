@@ -58,61 +58,61 @@ module testbench;
     wire stat_control;
 
     /* get current pc */
-    pc PC_block(clk, nextPC, currPC);
+    PC PC_block(clk, nextPC, currPC);
 
     /* add 4 to pc for next pc */
-    add4 PCadd4(currPC, PCplus4);
+    Add4 PCadd4(currPC, PCplus4);
 
     /* get instruction from memory */
-    memory instructionMemory(currPC, instr, number_instructions);
+    Instruction_Memory instructionMemory(currPC, instr, number_instructions);
 
     /* calculate jump address */
-    getJumpAddr JumpAddr_block(instr, PCplus4, jumpAddr);
+    Get_Jump_Addr JumpAddr_block(instr, PCplus4, jumpAddr);
 
     /* get all control signals from instruction */
-    control control_block(instr, syscall_control, jr_control, jal_control, controlSignals);
+    Control control_block(instr, syscall_control, jr_control, jal_control, controlSignals);
 
     /* mux for write register input */
-    mux_5bit registerMux(controlSignals[`REGDST], instr[20:16], instr[15:11], writeReg);
+    Mux_2_1_5bit registerMux(controlSignals[`REGDST], instr[20:16], instr[15:11], writeReg);
 
     /* execute registers block for read data outputs */
-    registers reg_block(clk, jal_control, currPC+8, instr[25:21], instr[20:16], writeReg, writeData, controlSignals[`REGWRITE], readData1, readData2, v0, a0, ra);
+    Registers reg_block(clk, jal_control, currPC+8, instr[25:21], instr[20:16], writeReg, writeData, controlSignals[`REGWRITE], readData1, readData2, v0, a0, ra);
 
     /* execute syscall if control signal is set based on v0 and a0 */
-    syscall testSyscall(syscall_control, v0, a0, stat_control);
+    Syscall testSyscall(syscall_control, v0, a0, stat_control);
 
     /* sign extend the immediate value */
-    signExtend_16_32 signExtend_block(instr, signExtendedValue);
+    Sign_Extend_16_32 signExtend_block(instr, signExtendedValue);
 
     /* adder for branch address */
-    adder branchAdder(PCplus4, signExtendedValue, branchAdderOut);
+    Adder branchAdder(PCplus4, signExtendedValue, branchAdderOut);
 
     /* mux for alu input 2 */
-    mux_2_1 aluMux(controlSignals[`ALUSRC], readData2, signExtendedValue, aluMuxOut);
+    Mux_2_1_32bit aluMux(controlSignals[`ALUSRC], readData2, signExtendedValue, aluMuxOut);
 
     /* execute alu block and output result and zero control signal */
-    alu ALU_block(readData1, aluMuxOut, controlSignals[`ALUOP], aluResult, zero);
+    ALU ALU_block(readData1, aluMuxOut, controlSignals[`ALUOP], aluResult, zero);
 
     /* and gate for branch mux control */
-    andGate and_gate(controlSignals[`BRANCH], zero, and_out);
+    And_Gate and_gate(controlSignals[`BRANCH], zero, and_out);
 
     /* mux for branch control */
-    mux_2_1 branchMux(and_out, PCplus4, branchAdderOut, branch_mux_out);
+    Mux_2_1_32bit branchMux(and_out, PCplus4, branchAdderOut, branch_mux_out);
 
     /* mux for jump control */
-    mux_2_1 jumpMux(controlSignals[`JUMP], branch_mux_out, jrMux_out, nextPC);
+    Mux_2_1_32bit jumpMux(controlSignals[`JUMP], branch_mux_out, jrMux_out, nextPC);
 
     /* execute data memory for read/write */
-    dataMemory dataMem(clk, controlSignals[`MEMWRITE], controlSignals[`MEMREAD], aluResult, readData2, readData_mem);
+    Data_Memory dataMem(clk, controlSignals[`MEMWRITE], controlSignals[`MEMREAD], aluResult, readData2, readData_mem);
 
     /* mux to control input to writeData */
-    mux_2_1 memToRegMux(controlSignals[`MEMTOREG], aluResult, readData_mem, writeData);
+    Mux_2_1_32bit memToRegMux(controlSignals[`MEMTOREG], aluResult, readData_mem, writeData);
 
     /* mux for JR control */
-    mux_2_1 jrMux(jr_control, jumpAddr, ra, jrMux_out);
+    Mux_2_1_32bit jrMux(jr_control, jumpAddr, ra, jrMux_out);
 
     /* stats module for printing end of run statistics */
-    stats runStats(clk, stat_control, number_instructions);
+    Stats runStats(clk, stat_control, number_instructions);
 
 
     always begin

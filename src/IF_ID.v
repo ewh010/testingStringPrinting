@@ -1,4 +1,4 @@
-//IF_ID.v
+// IF_ID.v
 
 /* module IF_ID: handles the pipelining from IF to ID stages */
 module IF_ID(input clk, input PCSrcD, input [31:0] PC_Plus4_F, input [31:0] Instr_F, output reg [31:0] PC_Plus4_D, output reg [31:0] Instr_D);

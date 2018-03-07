@@ -1,8 +1,8 @@
 // Ryan Pencak
-// stats.v
+// Stats.v
 
-/* stats module: prints statistics for run */
-module stats(input clk, input stat_control, input [31:0] number_instructions);
+/* Stats module: prints statistics for run */
+module Stats(input clk, input stat_control, input [31:0] number_instructions);
 
   reg [31:0] number_cycles;
 

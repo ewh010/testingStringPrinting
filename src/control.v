@@ -1,10 +1,10 @@
 // Ryan Pencak
 // control.v
 
-`include "mips.h"
+`include "../include/mips.h"
 
 /* control module: determines control signal values */
-module control(input [31:0] instr, output reg syscall_control, output reg jr_control, output reg jal_control, output reg [10:0] controlSignals);
+module Control(input [31:0] instr, output reg syscall_control, output reg jr_control, output reg jal_control, output reg [10:0] controlSignals);
 
   /* declare control signals */
   reg RegDst;
@@ -128,7 +128,7 @@ module control(input [31:0] instr, output reg syscall_control, output reg jr_con
 
             default:
               $display("R Instruction Not Listed\n");
-              
+
           endcase
         end
 

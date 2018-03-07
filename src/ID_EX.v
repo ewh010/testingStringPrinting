@@ -1,44 +1,37 @@
-/*
-Executes the operations passed from IDEX register
-*/
+// ID_EX.v
 
-module IDEX(input clk, input [3:0] EX, input [2:0] M, input [1:0] WB, input [4:0] RsD, input [4:0] RtD, input [4:0] RdD, input [31:0] RD1, input [31:0] DataB, input [31:0] SignImmD, output [1:0] WB_E, output [2:0] M_E, output [3:0] EX_E, output [4:0] RsE, output [4:0] RtE, output [4:0] RdE, output [31:0] RD1_E, output [31:0] DataB_E, output [31:0] SignImmE);
+/* ID_EX module: handles signals from ID to EX */
+module ID_EX(input clk, input [3:0] EX_D, input [2:0] MEM_D, input [1:0] WB_D, input [4:0] Rs_D,
+             input [4:0] Rt_D, input [4:0] Rd_D, input [31:0] RD1_D, input [31:0] RD2_D,
+             input [31:0] SignImm_D, output reg [3:0] EX_E, output reg [2:0] MEM_E, output reg [1:0] WB_E,
+             output reg [4:0] Rs_E, output reg [4:0] Rt_E, output reg [4:0] Rd_E, output reg [31:0] RD1_E,
+             output reg [31:0] RD2_E, output reg [31:0] SignImm_E);
 
-
-reg [1:0] WB_E 
-reg [2:0] M_E 
-reg [3:0] EX_E 
-reg [4:0] RsE 
-reg [4:0] RtE 
-reg [4:0] RdE 
-reg [31:0] RD1E 
-reg [31:0] RD2E 
-reg [31:0] SignImmE
-
-initial begin
+  /* initialize outputs to zero */
+  initial begin
+    EX_E = 0;
+    MEM_E = 0;
  		WB_E = 0;
- 		M_E = 0;
- 		EX_E = 0;
  		Rs_E = 0;
  		Rt_E = 0;
  		Rd_E = 0;
- 		RD1 = 0;
- 		RD2 = 0;
- 		SignImmD = 0;
+ 		RD1_E = 0;
+ 		RD2_E = 0;
+ 		SignImm_E = 0;
+   end
 
- end
+   /* set outputs to inputs on positive clock edge */
+   always(@posedge clk)
+   begin
+    EX_E = EX_D;
+    MEM_E = MEM_D;
+ 		WB_E = WB_D;
+ 		Rs_E = Rs_D;
+ 		Rt_E = Rt_D;
+ 		Rd_E = Rd_D;
+ 		RD1_E = RD1_D;
+ 		RD2_E = RD2_D;
+ 		SignImm_E = SignImm_D;
+   end
 
- always(@clk)
- begin
- 		WB_E <= WB;
- 		M_E <= M;
- 		EX_E <= EX;
- 		Rs_E <= RsD;
- 		Rt_E <= RtD;
- 		Rd_E <= RdD;
- 		RD1E <= RD1;
- 		RD2E <= RD2;
- 		SignImmE <= SignImmD;
-
- end
  endmodule
