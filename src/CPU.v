@@ -2,20 +2,20 @@
 // testbench.v
 
 /* include external module files */
-`include "mips.h"
-`include "pc.v"
-`include "adder.v"
-`include "memory.v"
-`include "getJumpAddr.v"
-`include "control.v"
-`include "mux.v"
-`include "syscall.v"
-`include "alu.v"
-`include "registers.v"
-`include "signExtend_16_32.v"
-`include "and.v"
-`include "dataMemory.v"
-`include "stats.v"
+`include "../include/mips.h"
+`include "PC.v"
+`include "Adder.v"
+`include "Instruction_Memory.v"
+`include "Get_Jump_Addr.v"
+`include "Control.v"
+`include "MUX.v"
+`include "Syscall.v"
+`include "ALU.v"
+`include "Registers.v"
+`include "Sign_Extend_16_32.v"
+`include "And.v"
+`include "Data_Memory.v"
+`include "Stats.v"
 
 
 /* testbench module */
