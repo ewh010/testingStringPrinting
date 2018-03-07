@@ -4,12 +4,12 @@
 
 
 /********************** FETCH MODULE ***************************/
-module Fetch(input [31:0] currPC, input [31:0] stall, output [31:0] PCF)
+module Fetch(input [31:0] currPC, input [/*not sure how large*/] stallF, output [31:0]/*this is an assumption*/ PCF)
 
 endmodule
 
 /********************** DECODE MODULE ***************************/
-module Decode(input [31:0] instr, output [31:0] instrD)
+module Decode(input [31:0] instr, input [/*not sure how large*/ ] stallD, output [31:0]/*this is an assumption*/ instrD)
 
 endmodule
 
