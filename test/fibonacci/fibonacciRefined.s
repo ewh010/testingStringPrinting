@@ -3,6 +3,13 @@
 
 __start:            # define entry point for gcc
 
+# nop for pipeline test
+nop
+nop
+nop
+nop
+nop
+
 li 		$sp, 0x7ffffffc
 
 # nop for pipeline test
@@ -79,6 +86,14 @@ nop
 nop
 
 fibonacci:
+
+    # nop for pipeline test
+    nop
+    nop
+    nop
+    nop
+    nop
+
 	addi 	$sp, $sp, -12
 
 	# nop for pipeline test
@@ -251,6 +266,14 @@ fibonacci:
 	nop
 
 fibonacciTerminate:
+
+    # nop for pipeline test
+    nop
+    nop
+    nop
+    nop
+    nop
+
 	lw 		$ra, 8($sp)
 
 	# nop for pipeline test
