@@ -13,7 +13,7 @@ module IF_ID(input clk, input PCSrcD, input [31:0] PC_F, input [31:0] Instr_F, i
   /* at positive clock edge handle pipe from IF to ID */
   always @(posedge clk)
   begin
-    if(PCSrcD)
+    if(!PCSrcD)
     begin
       PC_D = PC_F;
       Instr_D = Instr_F;
