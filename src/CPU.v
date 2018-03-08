@@ -29,7 +29,6 @@ module testbench;
 
     /* temp control signals */
       wire zero;
-      wire memRead;
 
     /* declare statistics wires */
       wire [31:0] number_instructions;
@@ -130,10 +129,10 @@ module testbench;
     /* ID Stage */
 
       // get all control signals from instruction
-      Control control_block(instr_D, EX_D, MEM_D, WB_D, jump, branch, syscall_control, jr_control, jal_control, memRead);
+      Control control_block(instr_D, EX_D, MEM_D, WB_D, jump, branch, syscall_control, jr_control, jal_control);
 
       // execute registers block for read data outputs
-      Registers reg_block(clk, jal_control, PC_D+8 /*JAL*/, instr_D[25:21], instr_D[20:16], writeReg_W, Result_W, MEM_D[`REGWRITE_M], RD1_D, RD2_D, v0, a0, ra);
+      Registers reg_block(clk, jal_control, PC_D+8 /*JAL*/, instr_D[25:21], instr_D[20:16], writeReg_W, Result_W, WB_D[`REGWRITE_W], RD1_D, RD2_D, v0, a0, ra);
 
       // sign extend the immediate value
       Sign_Extend_16_32 signExtend_block(instr_D, signImm_D);
@@ -184,7 +183,7 @@ module testbench;
     /* MEM Stage */
 
       // execute data memory for read/write
-      Data_Memory dataMem(clk, MEM_M[`MEMWRITE_M], memRead, ALUOut_M, writeData_M, readData_M);
+      Data_Memory dataMem(clk, MEM_M[`MEMWRITE_M], MEM_M[`MEMREAD_M], ALUOut_M, writeData_M, readData_M);
 
 
     /* Pipeline */

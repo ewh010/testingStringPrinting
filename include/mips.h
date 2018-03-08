@@ -35,9 +35,8 @@
  `define ALUOP_E 2:0
 
  // MEM Signals
- `define MEMWRITE_M 2
- `define MEMTOREG_M 1
- `define REGWRITE_M 0
+ `define MEMWRITE_M 1
+ `define MEMREAD_M 0
 
  // WB Signals
  `define REGWRITE_W 1
