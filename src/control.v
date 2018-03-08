@@ -4,7 +4,7 @@
 `include "../include/mips.h"
 
 /* control module: determines control signal values */
-module Control(input [31:0] instr, output reg [4:0] EX_D, output reg [2:0] MEM_D, output reg [1:0] WB_D, output reg jump, output reg branch, output reg syscall_control, output reg jr_control, output reg jal_control);
+module Control(input [31:0] instr, output reg [4:0] EX_D, output reg [2:0] MEM_D, output reg [1:0] WB_D, output reg jump, output reg branch, output reg syscall_control, output reg jr_control, output reg jal_control, output reg memread);
 
   /* declare control signals */
   reg RegDst;
@@ -141,6 +141,10 @@ module Control(input [31:0] instr, output reg [4:0] EX_D, output reg [2:0] MEM_D
     EX_D = {RegDst, ALUsrc, ALUop};
     MEM_D = {MemWrite, MemToReg, RegWrite};
     WB_D = {RegWrite, MemToReg};
+
+    // why isn't this in the pipelined MIPS???
+    memread = MemRead;
+
     // $display("ALUop = %03x\nRegDst = %01x | Jump = %01x | Branch = %01x | MemRead = %01x | MemToReg = %01x | RegWrite = %01x | ALUsrc = %01x | MemWrite = %01x\n", ALUop, RegDst, Jump, Branch, MemRead, MemToReg, RegWrite, ALUsrc, MemWrite);
 
   end //end always

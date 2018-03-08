@@ -11,11 +11,11 @@ module IF_ID(input clk, input PCSrcD, input [31:0] PC_F, input [31:0] Instr_F, i
   end
 
   /* at positive clock edge handle pipe from IF to ID */
-  always @(posedge clock)
+  always @(posedge clk)
   begin
     if(PCSrcD)
     begin
-      PC_D = PC_F
+      PC_D = PC_F;
       Instr_D = Instr_F;
       PC_Plus4_D = PC_Plus4_F;
     end

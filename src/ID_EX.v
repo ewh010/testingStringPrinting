@@ -21,7 +21,7 @@ module ID_EX(input clk, input [4:0] EX_D, input [2:0] MEM_D, input [1:0] WB_D, i
    end
 
    /* set outputs to inputs on positive clock edge */
-   always(@posedge clk)
+   always @(posedge clk)
    begin
     EX_E = EX_D;
     MEM_E = MEM_D;
