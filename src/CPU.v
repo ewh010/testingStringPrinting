@@ -218,7 +218,7 @@ module testbench;
       $dumpfile("testbench.vcd");
       $dumpvars(0,testbench);
 
-      // $monitor($time, " in %m, currPC = %08x, nextPC = %08x, instruction = %08x\n", currPC, nextPC, instr);
+      $monitor($time, " in %m, currPC = %08x, nextPC = %08x, instruction = %08x\n", PC_F, Next_PC, instr_F);
 
       #50000 $finish;
 
