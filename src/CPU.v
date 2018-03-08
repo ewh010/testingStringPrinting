@@ -35,7 +35,7 @@ module testbench;
       wire stat_control;
 
     /* declare IF Stage wires */
-      wire PCSrc_D;
+      wire PCSrc_D = 0;
       wire [31:0] PCPlus4_F;
       wire [31:0] PCBranch_D;
       wire [31:0] Next_PC;
@@ -57,7 +57,7 @@ module testbench;
 
       // pipeline signals
       wire [4:0] EX_D;
-      wire [2:0] MEM_D;
+      wire [1:0] MEM_D;
       wire [1:0] WB_D;
 
       // control signals
@@ -81,7 +81,7 @@ module testbench;
 
       // pipeline signals
       wire [4:0] EX_E;
-      wire [2:0] MEM_E;
+      wire [1:0] MEM_E;
       wire [1:0] WB_E;
 
     /* declare MEM Stage wires */
@@ -92,7 +92,7 @@ module testbench;
       wire [31:0] readData_M;
 
       // pipeline signals
-      wire [2:0] MEM_M;
+      wire [1:0] MEM_M;
       wire [1:0] WB_M;
 
     /* declare WB Stage wires */
@@ -108,7 +108,7 @@ module testbench;
     /* IF Stage */
 
       // mux for branch control
-      Mux_2_1_32bit branchMux(PCSrc_D, PCplus4_F, PCBranch_D, Next_PC);
+      Mux_2_1_32bit branchMux(PCSrc_D, PCPlus4_F, PCBranch_D, Next_PC);
 
       // get current pc
       PC PC_block(clk, Next_PC, PC_F);
@@ -218,9 +218,9 @@ module testbench;
       $dumpfile("testbench.vcd");
       $dumpvars(0,testbench);
 
-      $monitor($time, " in %m, currPC = %08x, nextPC = %08x, instruction = %08x\n", PC_F, Next_PC, instr_F);
+      $monitor($time, " in %m, currPC = %08x, nextPC = %08x, instruction = %08x, ALUOut_E = %08x, ALUOut_M = %08x, ALUOut_W = %08x, readData_M = %08x, readData_W = %08x\n", PC_F, Next_PC, instr_F, ALUOut_E, ALUOut_M, ALUOut_W, readData_M, readData_W);
 
-      #50000 $finish;
+      #880 $finish;
 
     end
 
