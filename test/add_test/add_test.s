@@ -43,7 +43,6 @@ nop
 nop
 nop
 nop
-
 syscall
 nop
 nop
