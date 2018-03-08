@@ -8,7 +8,8 @@ module Instruction_Memory(input [31:0] currPC, output reg [31:0] instr, output r
 
     initial begin
       // $readmemh(`TEST_FILE, mem);
-      $readmemh("../test/add_test/add_test.v", mem);
+      // $readmemh("../test/add_test/add_test.v", mem);
+      $readmemh("../test/fibonacci/fibonacciRefined.v", mem);
       number_instructions = 0; // initial statistic
     end
 
