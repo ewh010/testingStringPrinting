@@ -5,11 +5,6 @@
 .text
 
 __start:	        # define entry point for gcc
-nop
-nop
-nop
-nop
-nop
 li $t0, 1
 nop
 nop
