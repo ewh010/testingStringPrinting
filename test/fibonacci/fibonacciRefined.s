@@ -3,13 +3,6 @@
 
 __start:            # define entry point for gcc
 
-# nop for pipeline test
-nop
-nop
-nop
-nop
-nop
-
 li 		$sp, 0x7ffffffc
 
 # nop for pipeline test
@@ -23,7 +16,6 @@ li 		$a0, 10 # this number represents the nth fibonacci number - e.g. f(10) = 55
 nop			#upon compile, the nop will follow the jal to fill the branch delay slot.
 
 # nop for pipeline test
-nop
 nop
 nop
 nop
@@ -86,13 +78,6 @@ nop
 nop
 
 fibonacci:
-
-    # nop for pipeline test
-    nop
-    nop
-    nop
-    nop
-    nop
 
 	addi 	$sp, $sp, -12
 
@@ -209,7 +194,6 @@ fibonacci:
 	nop
 	nop
 	nop
-	nop
 
 	jal 	fibonacci
 
@@ -231,17 +215,9 @@ fibonacci:
 
 	addi 	$a0, $s0, -2 	# fibonacci(n-2)
 
-	# nop for pipeline test
-	nop
-	nop
-	nop
-	nop
-	nop
-
 	nop
 
 	# nop for pipeline test
-	nop
 	nop
 	nop
 	nop
@@ -266,13 +242,6 @@ fibonacci:
 	nop
 
 fibonacciTerminate:
-
-    # nop for pipeline test
-    nop
-    nop
-    nop
-    nop
-    nop
 
 	lw 		$ra, 8($sp)
 
@@ -303,17 +272,9 @@ fibonacciTerminate:
 
 	addi	$sp, $sp, 12
 
-	# nop for pipeline test
-	nop
-	nop
-	nop
-	nop
-	nop
-
 	nop
 
 	# nop for pipeline test
-	nop
 	nop
 	nop
 	nop
