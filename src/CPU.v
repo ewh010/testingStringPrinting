@@ -195,7 +195,7 @@ module testbench;
     /* WB Stage */
 
       // mux to control input to ResultW
-      Mux_2_1_32bit memToRegMux(WB_W[`MEMTOREG_W], ALUOut_W, readData_W, ResultW);
+      Mux_2_1_32bit memToRegMux(WB_W[`MEMTOREG_W], ALUOut_W, readData_W, Result_W);
 
 
     /* Statistics */

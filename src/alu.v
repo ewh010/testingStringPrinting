@@ -7,6 +7,8 @@ module ALU(input [31:0] reg1, input [31:0] reg2, input [2:0] ALUop, output reg [
   always @(*)
   begin
 
+    $display($time, " ALU given op = %3b, reg1 = %d, reg2 = %d", ALUop, reg1, reg2);
+
     case(ALUop)
       3'b000: //AND
         ALUresult = reg1 & reg2;

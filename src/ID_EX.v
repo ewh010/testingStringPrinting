@@ -23,6 +23,7 @@ module ID_EX(input clk, input [4:0] EX_D, input [1:0] MEM_D, input [1:0] WB_D, i
    /* set outputs to inputs on positive clock edge */
    always @(posedge clk)
    begin
+    $display("setting EX_E to %3b", EX_D);
     EX_E = EX_D;
     MEM_E = MEM_D;
  		WB_E = WB_D;
