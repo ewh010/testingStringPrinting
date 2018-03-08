@@ -207,7 +207,7 @@ module testbench;
     always begin
       if(stat_control == 0)
       begin
-        #10 clk = ~clk;
+        #1 clk = ~clk;
       end
     end
 
