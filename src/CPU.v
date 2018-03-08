@@ -207,7 +207,7 @@ module testbench;
     always begin
       if(stat_control == 0)
       begin
-        #1 clk = ~clk;
+        #10 clk = ~clk;
       end
     end
 
@@ -218,9 +218,9 @@ module testbench;
       $dumpfile("testbench.vcd");
       $dumpvars(0,testbench);
 
-      $monitor($time, " in %m, currPC = %08x, nextPC = %08x, instruction = %08x, ALUOut_E = %08x, ALUOut_M = %08x, ALUOut_W = %08x, readData_M = %08x, readData_W = %08x\n", PC_F, Next_PC, instr_F, ALUOut_E, ALUOut_M, ALUOut_W, readData_M, readData_W);
+      // $monitor($time, " in %m, currPC = %08x, nextPC = %08x, instruction = %08x, ALUOut_E = %08x, ALUOut_M = %08x, ALUOut_W = %08x, readData_M = %08x, readData_W = %08x\n", PC_F, Next_PC, instr_F, ALUOut_E, ALUOut_M, ALUOut_W, readData_M, readData_W);
 
-      #88 $finish;
+      #5000 $finish;
 
     end
 
