@@ -105,6 +105,12 @@ module testbench;
       // pipeline signals
       wire [1:0] WB_W;
 
+    /* Hazard Unit */
+
+      // call hazard unit with inputs from all stages
+      Hazard_Unit hazard();
+
+
     /* IF Stage */
 
       // mux for branch control
