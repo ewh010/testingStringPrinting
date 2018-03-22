@@ -2,7 +2,7 @@
 // dataMemory.v
 
 /* dataMemory module: handles write and read data*/
-module Data_Memory(clk, memWrite, memRead, address, writeData, readData);
+module Data_Memory(clk, memWrite, memRead, address, writeData, SyscallRead, readData);
 
   // inputs and outputs
   input clk;
@@ -10,6 +10,7 @@ module Data_Memory(clk, memWrite, memRead, address, writeData, readData);
   input memRead;
   input [31:0] address;
   input [31:0] writeData;
+  input [31:0] SyscallRead;
   output reg [31:0] readData;
 
 
@@ -26,5 +27,13 @@ module Data_Memory(clk, memWrite, memRead, address, writeData, readData);
     if(memWrite == 1)
       memory[address >> 2] = writeData; // at write, set memory at address shifted right 2 to writeData
   end
+
+  always @(address)
+  address = SyscallRead >> 2;
+
+  case ()
+    1'b0
+    1'b1
+
 
 endmodule

@@ -28,4 +28,8 @@ module Syscall(input syscall_control, input [31:0] v0, input [31:0] a0, output r
     end
   end
 
+
+
+
+
 endmodule
