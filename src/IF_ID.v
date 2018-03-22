@@ -1,7 +1,8 @@
 // IF_ID.v
 
 /* module IF_ID: handles the pipelining from IF to ID stages */
-module IF_ID(clk, StallD, PCSrcD, PC_F, Instr_F, PC_Plus4_F, PC_D, Instr_D, PC_Plus4_D);
+module IF_ID(clk, StallD, PCSrcD, PC_F, Instr_F, PC_Plus4_F,
+            PC_D, Instr_D, PC_Plus4_D);
 
   /* declare inputs */
     input clk, StallD, PCSrcD;

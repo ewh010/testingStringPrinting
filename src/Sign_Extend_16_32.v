@@ -2,7 +2,14 @@
 // Sign_Extend_16_32.v
 
 /* Sign_Extend_16_32 module: extends register from 16 to 32 bits*/
-module Sign_Extend_16_32(input [31:0] instr, output reg [31:0] out_value);
+module Sign_Extend_16_32(instr,
+                        out_value);
+
+  /* declare inputs */
+  input [31:0] instr;
+
+  /* declare outputs */
+  output reg [31:0] out_value;
 
   always @(*)
   begin

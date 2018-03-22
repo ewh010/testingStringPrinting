@@ -2,15 +2,18 @@
 // dataMemory.v
 
 /* dataMemory module: handles write and read data*/
-module Data_Memory(clk, memWrite, memRead, address, writeData, SyscallRead, readData);
+module Data_Memory(clk, memWrite, memRead, address, writeData, SyscallRead,
+                  readData);
 
-  // inputs and outputs
+  /* declare inputs */
   input clk;
   input memWrite;
   input memRead;
   input [31:0] address;
   input [31:0] writeData;
   input [31:0] SyscallRead;
+
+  /* declare outputs */
   output reg [31:0] readData;
 
 

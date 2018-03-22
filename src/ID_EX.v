@@ -1,10 +1,11 @@
 // ID_EX.v
 
 /* ID_EX module: handles signals from ID to EX */
-module ID_EX(clk, StallD, EX_D, MEM_D, WB_D, Rs_D, Rt_D, Rd_D, RD1_D, RD2_D, SignImm_D, EX_E, MEM_E, WB_E, Rs_E, Rt_E, Rd_E, RD1_E, RD2_E, SignImm_E);
+module ID_EX(clk, FlushE, EX_D, MEM_D, WB_D, Rs_D, Rt_D, Rd_D, RD1_D, RD2_D, SignImm_D,
+            EX_E, MEM_E, WB_E, Rs_E, Rt_E, Rd_E, RD1_E, RD2_E, SignImm_E);
 
-  //inputs and outputs
-  input clk, StallD;
+  /* declare inputs */
+  input clk, FlushE;
   input [4:0] EX_D;
   input [1:0] MEM_D;
   input [1:0] WB_D;
@@ -14,6 +15,8 @@ module ID_EX(clk, StallD, EX_D, MEM_D, WB_D, Rs_D, Rt_D, Rd_D, RD1_D, RD2_D, Sig
   input [31:0] RD1_D;
   input [31:0] RD2_D;
   input [31:0] SignImm_D;
+
+  /* declare outputs */
   output reg [4:0] EX_E;
   output reg [1:0] MEM_E;
   output reg [1:0] WB_E;
@@ -39,7 +42,7 @@ module ID_EX(clk, StallD, EX_D, MEM_D, WB_D, Rs_D, Rt_D, Rd_D, RD1_D, RD2_D, Sig
 
    /* set outputs to inputs on positive clock edge */
    always @(posedge clk) begin
-    if(StallD) begin
+    if(FlushE) begin
       EX_E = EX_E;
       MEM_E = MEM_E;
       WB_E = WB_E;

@@ -2,8 +2,19 @@
 // Registers.v
 
 /* Registers module: reads registers and outputs read data */
-module Registers(input clk, input jal_control, input[31:0] jal_address, input [4:0] readReg1, input [4:0] readReg2, input [4:0] writeReg, input [31:0] writeData, input RegWrite, output reg [31:0] readData1, output reg [31:0] readData2, output wire [31:0] v0, output wire [31:0] a0, output wire [31:0] ra);
+module Registers(clk, jal_control, jal_address, readReg1, readReg2, writeReg, writeData, RegWrite,
+                readData1, readData2, v0, a0, ra);
 
+  /* declare inputs */
+  input clk, jal_control, RegWrite;
+  input [31:0] jal_address, writeData;
+  input [4:0] readReg1, readReg2, writeReg;
+
+  /* declare outputs */
+  output reg [31:0] readData1, readData2;
+  output wire [31:0] v0, a0, ra;
+
+  /* declare registers and variables */
   reg [31:0] registers[0:31];
   integer i;
 

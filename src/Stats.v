@@ -2,8 +2,13 @@
 // Stats.v
 
 /* Stats module: prints statistics for run */
-module Stats(input clk, input stat_control, input [31:0] number_instructions);
+module Stats(clk, stat_control, number_instructions);
 
+  /* declare inputs */
+  input clk, stat_control;
+  input [31:0] number_instructions
+
+  /* declare registers */
   reg [31:0] number_cycles;
 
   initial begin

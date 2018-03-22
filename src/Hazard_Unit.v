@@ -1,7 +1,8 @@
 // Hazard_Unit.v
 
 /* Hazard_Unit module: handles pipeline stalls and forwarding */
-module Hazard_Unit(BranchD, MemReadE, MemtoRegE, RegWriteE, MemReadM, MemtoRegM, RegWriteM, RegWriteW, StallF, StallD, FlushE, ForwardAD, ForwardBD, ForwardAE, ForwardBE, RsD, RtD, RsE, RtE, WriteRegE, WriteRegM, WriteRegW);
+module Hazard_Unit(BranchD, MemReadE, MemtoRegE, RegWriteE, MemReadM, MemtoRegM, RegWriteM, RegWriteW,
+                  StallF, StallD, FlushE, ForwardAD, ForwardBD, ForwardAE, ForwardBE, RsD, RtD, RsE, RtE, WriteRegE, WriteRegM, WriteRegW);
 
   // define inputs
   input BranchD;

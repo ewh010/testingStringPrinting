@@ -2,12 +2,15 @@
 // alu.v
 
 /* alu module: handles input from registers and output to data memory */
-module ALU(reg1, reg2, ALUop, ALUresult, zero);
+module ALU(reg1, reg2, ALUop,
+          ALUresult, zero);
 
-  // inputs and outputs
+  /* declare inputs */
   input [31:0] reg1;
   input [31:0] reg2;
   input [2:0] ALUop;
+
+  /* declare outputs */
   output reg [31:0] ALUresult;
   output reg zero;
 

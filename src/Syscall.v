@@ -2,7 +2,15 @@
 // Syscall.v
 
 /* Sycscall module: determine and execute syscall */
-module Syscall(input syscall_control, input [31:0] v0, input [31:0] a0, output reg stat_control);
+module Syscall(syscall_control, v0, a0,
+              stat_control);
+
+  /* declare inputs */
+  input syscall_control;
+  input [31:0] v0, a0;
+
+  /* declare outputs */
+  output reg stat_control;
 
   initial begin
     stat_control = 0;

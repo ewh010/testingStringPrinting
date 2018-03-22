@@ -2,19 +2,27 @@
 // PC.v
 
 /* PC module: sets the output to the input on a clock */
-module PC(input clk, input [31:0] nextPC, output reg [31:0] currPC);
+module PC(clk, StallF, nextPC,
+          currPC);
 
-initial
-begin
-    currPC = 32'h00400020;
-end
+  /* declare inputs */
+  input clk, StallF;
+  input [31:0] nextPC;
 
-always @(posedge clk)
-begin
-    if($time != 0) // don't run if time is 0
-    begin
-      currPC = nextPC;
-    end
-end
+  /* declare outputs */
+  output reg [31:0] currPC;
+
+  initial
+  begin
+      currPC = 32'h00400020;
+  end
+
+  always @(posedge clk)
+  begin
+      if(($time != 0) and (!StallF)) // don't run if time is 0 or stall
+      begin
+        currPC = nextPC;
+      end
+  end
 
 endmodule
