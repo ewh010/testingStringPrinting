@@ -1,7 +1,18 @@
 // MEM_WB.v
 
 /* module MEM_WB: handles the pipelining from MEM to WB stages */
-module MEM_WB(input clk, input [1:0] WB_M, input [31:0] ReadData_M, input [31:0] ALUOut_M, input [4:0] WriteReg_M, output reg [1:0] WB_W, output reg [31:0] ReadData_W, output reg [31:0] ALUOut_W, output reg [4:0] WriteReg_W);
+module MEM_WB(clk, WB_M, ReadData_M, ALUOut_M, WriteReg_M, WB_W, ReadData_W, ALUOut_W, WriteReg_W);
+
+  /* declare inputs */
+  input clk;
+  input [1:0] WB_M;
+  input [31:0] ReadData_M, ALUOut_M;
+  input [4:0] WriteReg_M;
+
+  /* declare outputs */
+  output reg [1:0] WB_W;
+  output reg [31:0] ReadData_W, ALUOut_W;
+  output reg [4:0] WriteReg_W;
 
   /* initialize outputs to zero */
   initial begin

@@ -1,10 +1,10 @@
 // ID_EX.v
 
 /* ID_EX module: handles signals from ID to EX */
-module ID_EX(clk, EX_D, MEM_D, WB_D, Rs_D, Rt_D, Rd_D, RD1_D, RD2_D, SignImm_D, EX_E, MEM_E, WB_E, Rs_E, Rt_E, Rd_E, RD1_E, RD2_E, SignImm_E);
+module ID_EX(clk, StallD, EX_D, MEM_D, WB_D, Rs_D, Rt_D, Rd_D, RD1_D, RD2_D, SignImm_D, EX_E, MEM_E, WB_E, Rs_E, Rt_E, Rd_E, RD1_E, RD2_E, SignImm_E);
 
   //inputs and outputs
-  input clk;
+  input clk, StallD;
   input [4:0] EX_D;
   input [1:0] MEM_D;
   input [1:0] WB_D;
@@ -38,18 +38,30 @@ module ID_EX(clk, EX_D, MEM_D, WB_D, Rs_D, Rt_D, Rd_D, RD1_D, RD2_D, SignImm_D, 
    end
 
    /* set outputs to inputs on positive clock edge */
-   always @(posedge clk)
-   begin
-    // $display("setting EX_E to %3b", EX_D);
-    EX_E = EX_D;
-    MEM_E = MEM_D;
- 		WB_E = WB_D;
- 		Rs_E = Rs_D;
- 		Rt_E = Rt_D;
- 		Rd_E = Rd_D;
- 		RD1_E = RD1_D;
- 		RD2_E = RD2_D;
- 		SignImm_E = SignImm_D;
-   end
+   always @(posedge clk) begin
+    if(StallD) begin
+      EX_E = EX_E;
+      MEM_E = MEM_E;
+      WB_E = WB_E;
+      Rs_E = Rs_E;
+      Rt_E = Rt_E;
+      Rd_E = Rd_E;
+      RD1_E = RD1_E;
+      RD2_E = RD2_E;
+      SignImm_E = SignImm_E;
+    end
+    else begin
+      // $display("setting EX_E to %3b", EX_D);
+      EX_E = EX_D;
+      MEM_E = MEM_D;
+      WB_E = WB_D;
+      Rs_E = Rs_D;
+      Rt_E = Rt_D;
+      Rd_E = Rd_D;
+      RD1_E = RD1_D;
+      RD2_E = RD2_D;
+      SignImm_E = SignImm_D;
+    end
+  end
 
- endmodule
+endmodule
