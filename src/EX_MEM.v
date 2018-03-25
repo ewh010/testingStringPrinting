@@ -1,11 +1,11 @@
 // EX_MEM.v
 
 /* EX to MEM module: handles signals from EX to MEM */
-module EX_MEM(clk, MEM_E, WB_E, ALUOut_E, WriteData_E, WriteReg_E,
+module EX_MEM(clk, FlushE, MEM_E, WB_E, ALUOut_E, WriteData_E, WriteReg_E,
 							MEM_M, WB_M, ALUOut_M, WriteData_M, WriteReg_M);
 
 	/* declare inputs */
-	input clk;
+	input clk, FlushE;
 	input [1:0] MEM_E, WB_E;
 	input [31:0] ALUOut_E, WriteData_E;
 	input [4:0] WriteReg_E;

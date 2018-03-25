@@ -3,7 +3,7 @@
 
 /* alu module: handles input from registers and output to data memory */
 module ALU(reg1, reg2, ALUop,
-          ALUresult, zero);
+          ALUresult);
 
   /* declare inputs */
   input [31:0] reg1;
@@ -12,7 +12,6 @@ module ALU(reg1, reg2, ALUop,
 
   /* declare outputs */
   output reg [31:0] ALUresult;
-  output reg zero;
 
   always @(*)
   begin
@@ -39,7 +38,7 @@ module ALU(reg1, reg2, ALUop,
       end
     endcase
 
-    zero = (ALUresult == 0) ? 1:0; // set variable zero to 1 if ALU result is 0, else set to 0
+    // zero = (ALUresult == 0) ? 1:0; // set variable zero to 1 if ALU result is 0, else set to 0
 
   end
 

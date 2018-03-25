@@ -30,17 +30,17 @@
  *-------------------------------------------------------------------------------------------------*/
 
  // EX Signals
- `define REGDST_E 4
- `define ALUSRC_E 3
- `define ALUOP_E 2:0
+ `define REGDST 4
+ `define ALUSRC 3
+ `define ALUOP 2:0
 
  // MEM Signals
- `define MEMWRITE_M 1
- `define MEMREAD_M 0
+ `define MEMWRITE 1
+ `define MEMREAD 0
 
  // WB Signals
- `define REGWRITE_W 1
- `define MEMTOREG_W 0
+ `define REGWRITE 1
+ `define MEMTOREG 0
 
 /*-------------------------------------------------------------------------------------------------*
  * Instruction Fields                                                                              *

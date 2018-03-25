@@ -2,22 +2,24 @@
 // memory.v
 
 /* memory module: determines output data*/
-module Instruction_Memory(currPC, instr,
-                          number_instructions);
+module Instruction_Memory(currPC,
+                          instr, number_instructions);
 
   /* declare inputs */
-  input [31:0] currPC, instr;
+  input [31:0] currPC;
 
   /* declare outputs */
-  output reg [31:0] number_instructions;
+  output reg [31:0] instr, number_instructions;
 
   /* declare registers */
   reg [31:0] mem[29'h00100000:29'h00100100];
 
   initial begin
     // $readmemh(`TEST_FILE, mem);
-    // $readmemh("../test/fibonacci/fibonacciRefined.v", mem);
     $readmemh("../test/add_test/add_test.v", mem);
+    // $readmemh("../test/hello_world/hello.v", mem);
+    // $readmemh("../test/fibonacci/fib.v", mem);
+
     number_instructions = 0; // initial statistic
   end
 
