@@ -17,19 +17,19 @@ module MEM_WB(clk, WB_M, ReadData_M, ALUOut_M, WriteReg_M,
 
   /* initialize outputs to zero */
   initial begin
-    WB_W = 0;
-    ReadData_W = 0;
-    ALUOut_W = 0;
-    WriteReg_W = 0;
+    WB_W <= 0;
+    ReadData_W <= 0;
+    ALUOut_W <= 0;
+    WriteReg_W <= 0;
   end
 
   /* at positive clock edge handle pipe from IF to ID */
   always @(posedge clk)
   begin
-    WB_W = WB_M;
-    ReadData_W = ReadData_M;
-    ALUOut_W = ALUOut_M;
-    WriteReg_W = WriteReg_M;
+    WB_W <= WB_M;
+    ReadData_W <= ReadData_M;
+    ALUOut_W <= ALUOut_M;
+    WriteReg_W <= WriteReg_M;
   end
 
 endmodule

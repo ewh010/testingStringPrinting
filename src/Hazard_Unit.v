@@ -31,10 +31,10 @@ module Hazard_Unit(BranchD, MemReadE, MemtoRegE, RegWriteE, MemReadM, MemtoRegM,
     /* Stalling Logic */
 
       // load word stall
-      lwstall = (((RsD === RtE) || (RtD === RtE)) && MemtoRegE);
+      lwstall = (((RsD == RtE) || (RtD == RtE)) && MemtoRegE);
 
       // branch stall
-      branchstall = ((BranchD && RegWriteE && ((WriteRegE === RsD) || (WriteRegE === RtD))) || (BranchD && MemtoRegM && ((WriteRegM === RsD) || (WriteRegM === RtD))));
+      branchstall = ((BranchD && RegWriteE && ((WriteRegE == RsD) || (WriteRegE == RtD))) || (BranchD && MemtoRegM && ((WriteRegM == RsD) || (WriteRegM == RtD))));
 
       // set stall signals
       StallF = (lwstall || branchstall);
@@ -45,27 +45,27 @@ module Hazard_Unit(BranchD, MemReadE, MemtoRegE, RegWriteE, MemReadM, MemtoRegM,
     /* Forwarding Logic*/
 
       // Set forward signals to Decode Stage
-      ForwardAD = (RsD !== 0) && (RsD === WriteRegM) && RegWriteM;
-      ForwardBD = (RtD !== 0) && (RtD === WriteRegM) && RegWriteM;
+      ForwardAD = (RsD != 0) && (RsD == WriteRegM) && RegWriteM;
+      ForwardBD = (RtD != 0) && (RtD == WriteRegM) && RegWriteM;
 
       // Set forward signals to Execute Stage for srcA
-      if ((RsE !== 0) && (RsE === WriteRegM) && (RegWriteM))
+      if ((RsE != 0) && (RsE == WriteRegM) && (RegWriteM))
         ForwardAE = 2'b10;
-      else if ((RsE !== 0) && (RsE === WriteRegW) && RegWriteW)
-        ForwardAE = 01;
+      else if ((RsE != 0) && (RsE == WriteRegW) && RegWriteW)
+        ForwardAE = 2'b01;
       else
         ForwardAE = 2'b00;
 
       // Set forward signals to Execute Stage for srcB
-      if ((RtE !== 0) && (RtE === WriteRegM) && RegWriteM)
+      if ((RtE != 0) && (RtE == WriteRegM) && RegWriteM)
         ForwardBE = 2'b10;
-      else if ((RtE !== 0) && (RtE === WriteRegW) && RegWriteW)
-        ForwardBE = 01;
+      else if ((RtE != 0) && (RtE == WriteRegW) && RegWriteW)
+        ForwardBE = 2'b01;
       else
         ForwardBE = 2'b00;
 
 
-    $display("In Hazard-- BranchD=%1d, MemReadE=%1d, MemtoRegE=%1d, RegWriteE=%1d, MemReadM=%1d, MemtoRegM=%1d, RegWriteM=%1d, RegWriteW=%1d, RsD=%5d, RtD=%5d, RsE=%5d, RtE=%5d, WriteRegE=%5d, WriteRegM=%5d, WriteRegW=%5d, StallF=%1d, StallD=%1d, FlushE=%1d, lwstall=%1d, branchstall=%1d\n", BranchD, MemReadE, MemtoRegE, RegWriteE, MemReadM, MemtoRegM, RegWriteM, RegWriteW, RsD, RtD, RsE, RtE, WriteRegE, WriteRegM, WriteRegW, StallF, StallD, FlushE, lwstall, branchstall);
+    // $display("In Hazard-- BranchD=%1d, MemReadE=%1d, MemtoRegE=%1d, RegWriteE=%1d, MemReadM=%1d, MemtoRegM=%1d, RegWriteM=%1d, RegWriteW=%1d, RsD=%5d, RtD=%5d, RsE=%5d, RtE=%5d, WriteRegE=%5d, WriteRegM=%5d, WriteRegW=%5d, StallF=%1d, StallD=%1d, FlushE=%1d, lwstall=%1d, branchstall=%1d\n", BranchD, MemReadE, MemtoRegE, RegWriteE, MemReadM, MemtoRegM, RegWriteM, RegWriteW, RsD, RtD, RsE, RtE, WriteRegE, WriteRegM, WriteRegW, StallF, StallD, FlushE, lwstall, branchstall);
 
   end
 

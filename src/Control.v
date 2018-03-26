@@ -4,23 +4,24 @@
 `include "../include/mips.h"
 
 /* control module: determines control signal values */
-module Control(instr, EX_D, MEM_D, WB_D, jump, branch, syscall_control, jr_control, jal_control);
+module Control(instr,
+               EX_D, MEM_D, WB_D, Jump, Branch, syscall_control, jr_control, jal_control);
 
   // inputs and outputs
   input [31:0] instr;
   output reg [4:0] EX_D;
   output reg [1:0] MEM_D;
   output reg [1:0] WB_D;
-  output reg jump;
-  output reg branch;
+  output reg Jump;
+  output reg Branch;
   output reg syscall_control;
   output reg jr_control;
   output reg jal_control;
 
   /* declare control signals */
   reg RegDst;
-  reg Jump;
-  reg Branch;
+  // reg Jump;
+  // reg Branch;
   reg MemRead;
   reg MemToReg;
   reg [2:0] ALUop;

@@ -1,7 +1,7 @@
 // EX_MEM.v
 
 /* EX to MEM module: handles signals from EX to MEM */
-module EX_MEM(clk, FlushE, MEM_E, WB_E, ALUOut_E, WriteData_E, WriteReg_E,
+module EX_MEM(clk, MEM_E, WB_E, ALUOut_E, WriteData_E, WriteReg_E,
 							MEM_M, WB_M, ALUOut_M, WriteData_M, WriteReg_M);
 
 	/* declare inputs */
@@ -16,29 +16,20 @@ module EX_MEM(clk, FlushE, MEM_E, WB_E, ALUOut_E, WriteData_E, WriteReg_E,
 	output reg [4:0] WriteReg_M;
 
 	initial begin
-		MEM_M = 0;
-		WB_M = 0;
-		ALUOut_M = 0;
-		WriteData_M = 0;
-		WriteReg_M = 0;
+		MEM_M <= 0;
+		WB_M <= 0;
+		ALUOut_M <= 0;
+		WriteData_M <= 0;
+		WriteReg_M <= 0;
 	end
 
 	always @(posedge clk)
 	begin
-		if (FlushE) begin
-			MEM_M = 0;
-			WB_M = 0;
-			ALUOut_M = 0;
-			WriteReg_M = 0;
-			WriteReg_M = 0;
-		end
-		else begin
-			MEM_M = MEM_E;
-			WB_M = WB_E;
-			ALUOut_M = ALUOut_E;
-			WriteReg_M = WriteData_E;
-			WriteReg_M = WriteReg_E;
-		end
+		MEM_M <= MEM_E;
+		WB_M <= WB_E;
+		ALUOut_M <= ALUOut_E;
+		WriteReg_M <= WriteData_E;
+		WriteReg_M <= WriteReg_E;
 	end
 
 endmodule

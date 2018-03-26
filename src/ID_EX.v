@@ -29,41 +29,41 @@ module ID_EX(clk, FlushE, EX_D, MEM_D, WB_D, Rs_D, Rt_D, Rd_D, RD1_D, RD2_D, Sig
 
   /* initialize outputs to zero */
   initial begin
-    EX_E = 0;
-    MEM_E = 0;
- 		WB_E = 0;
- 		Rs_E = 0;
- 		Rt_E = 0;
- 		Rd_E = 0;
- 		RD1_E = 0;
- 		RD2_E = 0;
- 		SignImm_E = 0;
+    EX_E <= 0;
+    MEM_E <= 0;
+ 		WB_E <= 0;
+ 		Rs_E <= 0;
+ 		Rt_E <= 0;
+ 		Rd_E <= 0;
+ 		RD1_E <= 0;
+ 		RD2_E <= 0;
+ 		SignImm_E <= 0;
    end
 
    /* set outputs to inputs on positive clock edge */
    always @(posedge clk) begin
     if(FlushE) begin
-      EX_E = EX_E;
-      MEM_E = MEM_E;
-      WB_E = WB_E;
-      Rs_E = Rs_E;
-      Rt_E = Rt_E;
-      Rd_E = Rd_E;
-      RD1_E = RD1_E;
-      RD2_E = RD2_E;
-      SignImm_E = SignImm_E;
+      EX_E <= 0;
+      MEM_E <= 0;
+      WB_E <= 0;
+      Rs_E <= 0;
+      Rt_E <= 0;
+      Rd_E <= 0;
+      RD1_E <= 0;
+      RD2_E <= 0;
+      SignImm_E <= 0;
     end
     else begin
       // $display("setting EX_E to %3b", EX_D);
-      EX_E = EX_D;
-      MEM_E = MEM_D;
-      WB_E = WB_D;
-      Rs_E = Rs_D;
-      Rt_E = Rt_D;
-      Rd_E = Rd_D;
-      RD1_E = RD1_D;
-      RD2_E = RD2_D;
-      SignImm_E = SignImm_D;
+      EX_E <= EX_D;
+      MEM_E <= MEM_D;
+      WB_E <= WB_D;
+      Rs_E <= Rs_D;
+      Rt_E <= Rt_D;
+      Rd_E <= Rd_D;
+      RD1_E <= RD1_D;
+      RD2_E <= RD2_D;
+      SignImm_E <= SignImm_D;
     end
   end
 

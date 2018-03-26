@@ -19,7 +19,7 @@ module PC(clk, StallF, nextPC,
 
   always @(posedge clk)
   begin
-      if(($time != 0) && (!StallF)) // don't run if time is 0 or stall
+      if(($time != 0) && (StallF != 1)) // don't run if time is 0 or stall
       begin
         currPC = nextPC;
       end

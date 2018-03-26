@@ -13,23 +13,28 @@ module IF_ID(clk, StallD, PCSrcD, PC_F, Instr_F, PC_Plus4_F,
 
   /* initialize outputs to zero */
   initial begin
-    Instr_D = 0;
-    PC_Plus4_D = 0;
-    PC_D = 0;
+    Instr_D <= 0;
+    PC_Plus4_D <= 0;
+    PC_D <= 0;
   end
 
   /* at positive clock edge handle pipe from IF to ID */
   always @(posedge clk)
   begin
     if(StallD) begin
-      Instr_D = Instr_D;
-      PC_Plus4_D = PC_Plus4_D;
-      PC_D = PC_D;
+      Instr_D <= Instr_D;
+      PC_Plus4_D <= PC_Plus4_D;
+      PC_D <= PC_D;
     end
-    else if(!PCSrcD) begin
-      PC_D = PC_F;
-      Instr_D = Instr_F;
-      PC_Plus4_D = PC_Plus4_F;
+    else if(PCSrcD) begin
+      Instr_D <= 0;
+      PC_Plus4_D <= 0;
+      PC_D <= 0;
+    end
+    else begin
+      PC_D <= PC_F;
+      Instr_D <= Instr_F;
+      PC_Plus4_D <= PC_Plus4_F;
     end
   end
 

@@ -49,8 +49,8 @@ module testbench;
       wire [31:0] PCPlus4_D;
       wire [31:0] PC_D;
       wire [31:0] signImm_D;
-      wire [31:0] RD1;
-      wire [31:0] RD2;
+      wire [31:0] And_Input1;
+      wire [31:0] And_Input2;
       wire [31:0] RD1_D;
       wire [31:0] RD2_D;
 
@@ -132,7 +132,7 @@ module testbench;
       Get_Jump_Addr JumpAddr_block(instr_D, PCPlus4_D, jumpAddr);
 
       // mux for JR control
-      Mux_2_1_32bit jrMux(jr_control, PCPlus4_D, ra, jrMux_out);
+      Mux_2_1_32bit jrMux(jr_control, PCPlus4_F, ra, jrMux_out);
 
       // mux for branch control
       Mux_2_1_32bit branchMux(PCSrc_D, jrMux_out, PCBranch_D, branch_mux_out);
@@ -162,16 +162,16 @@ module testbench;
       Control control_block(instr_D, EX_D, MEM_D, WB_D, jump, BranchD, syscall_control, jr_control, jal_control);
 
       // execute registers block for read data outputs
-      Registers reg_block(clk, jal_control, PC_D+8 /*JAL*/, instr_D[25:21], instr_D[20:16], writeReg_W, Result_W, WB_D[`REGWRITE], RD1, RD2, v0, a0, ra);
+      Registers reg_block(clk, jal_control, PC_D+8 /*JAL*/, instr_D[25:21], instr_D[20:16], writeReg_W, Result_W, WB_D[`REGWRITE], RD1_D, RD2_D, v0, a0, ra);
 
       // mux for RD1
-      Mux_2_1_32bit MuxRD1(ForwardAD, RD1, ALUOut_M, RD1_D);
+      Mux_2_1_32bit MuxRD1(ForwardAD, RD1_D, ALUOut_M, And_Input1);
 
       // mux for RD2
-      Mux_2_1_32bit MuxRD2(ForwardBD, RD2, ALUOut_M, RD2_D);
+      Mux_2_1_32bit MuxRD2(ForwardBD, RD2_D, ALUOut_M, And_Input2);
 
       // equal gate for registers
-      Equal regEqual(RD1_D, RD2_D, EqualD);
+      Equal regEqual(And_Input1, And_Input2, EqualD);
 
       // and gate for branch mux control
       And_Gate branch_control(BranchD, EqualD, PCSrc_D);
@@ -213,7 +213,7 @@ module testbench;
     /* Pipeline */
 
       // EX to MEM Pipeline
-      EX_MEM ExMem(clk, FlushE, MEM_E, WB_E, ALUOut_E, WriteData_E, writeReg_E, MEM_M, WB_M, ALUOut_M, writeData_M, writeReg_M);
+      EX_MEM ExMem(clk, MEM_E, WB_E, ALUOut_E, WriteData_E, writeReg_E, MEM_M, WB_M, ALUOut_M, writeData_M, writeReg_M);
 
 
     /* MEM Stage */
@@ -254,9 +254,9 @@ module testbench;
       $dumpfile("testbench.vcd");
       $dumpvars(0,testbench);
 
-      $monitor($time, " in %m, currPC = %08x, nextPC = %08x, instruction = %08x, ALUOut_E = %08x, ALUOut_M = %08x, ALUOut_W = %08x, readData_M = %08x, readData_W = %08x, EqualD = %01d, PCSrc_D = %01d, StallF = %01d\n", PC_F, Next_PC, instr_F, ALUOut_E, ALUOut_M, ALUOut_W, readData_M, readData_W, EqualD, PCSrc_D, StallF);
+      $monitor($time, " in %m, currPC = %08x, nextPC = %08x, instruction = %08x, ALUOut_E = %08x, ALUOut_M = %08x, ALUOut_W = %08x, readData_M = %08x, readData_W = %08x, EqualD = %01d, PCSrc_D = %01d, StallF = %01d, BranchD=%1d\n", PC_F, Next_PC, instr_F, ALUOut_E, ALUOut_M, ALUOut_W, readData_M, readData_W, EqualD, PCSrc_D, StallF, BranchD);
 
-      #5000 $finish;
+      #200 $finish;
 
     end
 
