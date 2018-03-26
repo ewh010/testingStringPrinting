@@ -29,6 +29,24 @@ module Control(instr,
   reg ALUsrc;
   reg MemWrite;
 
+  initial begin
+    RegDst = 0;
+    Jump = 0;
+    Branch = 0;
+    MemRead = 0;
+    MemToReg = 0;
+    ALUop = 3'b000;
+    RegWrite = 0;
+    ALUsrc = 0;
+    MemWrite = 0;
+    syscall_control = 0;
+    jr_control = 0;
+    jal_control = 0;
+    EX_D = 0;
+    MEM_D = 0;
+    WB_D = 0;
+  end
+
   always @(instr) // case on instruction
   begin
 

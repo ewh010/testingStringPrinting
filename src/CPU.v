@@ -68,6 +68,7 @@ module testbench;
       wire jump;
       wire BranchD;
       wire syscall_control;
+      wire systall;
       wire jal_control;
       wire jr_control;
 
@@ -123,7 +124,7 @@ module testbench;
     /* Hazard Unit */
 
       // call hazard unit with inputs from all stages
-      Hazard_Unit hazard(BranchD, MEM_E[`MEMREAD], WB_E[`MEMTOREG], WB_E[`REGWRITE], MEM_M[`MEMREAD], WB_M[`MEMTOREG], WB_M[`REGWRITE], WB_W[`REGWRITE], instr_D[25:21], instr_D[20:16], Rs_E, Rt_E, writeReg_E, writeReg_M, writeReg_W, StallF, StallD, FlushE, ForwardAD, ForwardBD, ForwardAE, ForwardBE);
+      Hazard_Unit hazard(syscall_control, BranchD, MEM_E[`MEMREAD], WB_E[`MEMTOREG], WB_E[`REGWRITE], MEM_M[`MEMREAD], WB_M[`MEMTOREG], WB_M[`REGWRITE], WB_W[`REGWRITE], instr_D[25:21], instr_D[20:16], Rs_E, Rt_E, writeReg_E, writeReg_M, writeReg_W, StallF, StallD, FlushE, ForwardAD, ForwardBD, ForwardAE, ForwardBE, sysstall);
 
 
     /* IF Stage */
@@ -183,7 +184,7 @@ module testbench;
       Adder branchAdder(PCPlus4_D, signImm_D, PCBranch_D);
 
       // execute syscall if control signal is set based on v0 and a0
-      Syscall testSyscall(syscall_control, v0, a0, stat_control);
+      Syscall testSyscall(syscall_control, sysstall, v0, a0, stat_control);
 
 
     /* Pipeline */
@@ -254,9 +255,9 @@ module testbench;
       $dumpfile("testbench.vcd");
       $dumpvars(0,testbench);
 
-      $monitor($time, " in %m, currPC = %08x, nextPC = %08x, instruction = %08x, ALUOut_E = %08x, ALUOut_M = %08x, ALUOut_W = %08x, readData_M = %08x, readData_W = %08x, EqualD = %01d, PCSrc_D = %01d, StallF = %01d, BranchD=%1d\n", PC_F, Next_PC, instr_F, ALUOut_E, ALUOut_M, ALUOut_W, readData_M, readData_W, EqualD, PCSrc_D, StallF, BranchD);
+      // $monitor($time, " in %m, currPC = %08x, nextPC = %08x, instruction = %08x, ALUOut_E = %08x, ALUOut_M = %08x, ALUOut_W = %08x, readData_M = %08x, readData_W = %08x, EqualD = %01d, PCSrc_D = %01d, StallF = %01d, BranchD=%1d\n", PC_F, Next_PC, instr_F, ALUOut_E, ALUOut_M, ALUOut_W, readData_M, readData_W, EqualD, PCSrc_D, StallF, BranchD);
 
-      #200 $finish;
+      #5000 $finish;
 
     end
 

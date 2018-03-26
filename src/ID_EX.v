@@ -31,7 +31,7 @@ module ID_EX(clk, FlushE, EX_D, MEM_D, WB_D, Rs_D, Rt_D, Rd_D, RD1_D, RD2_D, Sig
   initial begin
     EX_E <= 0;
     MEM_E <= 0;
- 		WB_E <= 0;
+ 		WB_E <= 2'b00;
  		Rs_E <= 0;
  		Rt_E <= 0;
  		Rd_E <= 0;

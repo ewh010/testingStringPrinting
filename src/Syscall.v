@@ -2,11 +2,11 @@
 // Syscall.v
 
 /* Sycscall module: determine and execute syscall */
-module Syscall(syscall_control, v0, a0,
+module Syscall(syscall_control, sysstall, v0, a0,
               stat_control);
 
   /* declare inputs */
-  input syscall_control;
+  input syscall_control, sysstall;
   input [31:0] v0, a0;
 
   /* declare outputs */
@@ -16,10 +16,10 @@ module Syscall(syscall_control, v0, a0,
     stat_control = 0;
   end
 
-  always @(*)
+  always @(syscall_control, sysstall)
   begin
 
-    if(syscall_control == 1) // on syscall control signal
+    if((syscall_control == 1) && (sysstall == 0)) // on syscall control signal
     begin
       // v0 as 1 indicates a print integer syscall
       if(v0 == 1)
