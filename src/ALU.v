@@ -13,6 +13,15 @@ module ALU(reg1, reg2, ALUop,
   /* declare outputs */
   output reg [31:0] ALUresult;
 
+  /* declare lo and hi registers */
+  reg [31:0] lo;
+  reg [31:0] hi;
+
+  initial begin
+    lo = 32'b0;
+    hi = 32'b0;
+  end
+
   always @(*)
   begin
 
@@ -28,9 +37,9 @@ module ALU(reg1, reg2, ALUop,
       5'b00011: //LUI
         ALUresult = {reg2, 16'b0};
       5'b00100: // MFLO
-        $display("MFLO\n");
+        ALUresult = lo;
       5'b00101: // MFHI
-        $display("MFLO\n");
+        ALUresult = hi;
       5'b00110: //SUB
         ALUresult = reg1 - reg2;
       5'b00111: //SLT
@@ -45,10 +54,16 @@ module ALU(reg1, reg2, ALUop,
       5'b01001: //SRA
         ALUresult = reg1 >> reg2;
       5'b01010: // DIV
-        ALUresult = reg1 / reg2;
+        begin
+          lo = reg1 / reg2;
+          hi = reg1 % reg2;
+        end
+      5'b01101: // MOVZ
+        begin
+          if(reg2 == 32'b0)
+            ALUresult = reg1;
+        end
     endcase
-
-    // zero = (ALUresult == 0) ? 1:0; // set variable zero to 1 if ALU result is 0, else set to 0
 
   end
 

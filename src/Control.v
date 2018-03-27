@@ -162,17 +162,20 @@ module Control(instr,
             `ADD , `ADDU:
               ALUop = 5'b00010;
 
+            `SUB , `SUBU:
+              ALUop = 5'b00110;
+
             `DIV:
               ALUop = 5'b01010;
+
+            `MOVZ:
+              ALUop = 5'b01101;
 
             `MFLO:
               ALUop = 5'b00100;
 
             `MFHI:
               ALUop = 5'b00101;
-
-            `SUB , `SUBU:
-              ALUop = 5'b00110;
 
             `SLT:
               ALUop = 5'b00111;

@@ -214,6 +214,8 @@
 `define SYSCALL  6'b001100
 `define BREAK    6'b001101
 
+`define MOVZ     6'b001010
+
 `define MFHI     6'b010000
 `define MTHI     6'b010001
 `define MFLO     6'b010010
