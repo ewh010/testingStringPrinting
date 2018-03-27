@@ -14,7 +14,8 @@ module PC(clk, StallF, nextPC,
 
   initial
   begin
-      currPC = 32'h00400030;
+    // currPC = 32'h00400020; // add_test
+    currPC = 32'h00400030; // hello_world/fib
   end
 
   always @(posedge clk)

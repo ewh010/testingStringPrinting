@@ -188,7 +188,8 @@ module Control(instr,
 
             `JR:
               begin
-                Jump = 1; RegWrite = 1;
+                Jump = 1;
+                RegWrite = 1;
                 jr_control = 1;
               end
 
@@ -223,7 +224,7 @@ module Control(instr,
     MEM_D = {MemWrite, MemRead};
     WB_D = {RegWrite, MemToReg};
 
-    // $display("ALUop = %03x\nRegDst = %01x | Jump = %01x | Branch = %01x | MemRead = %01x | MemToReg = %01x | RegWrite = %01x | ALUsrc = %01x | MemWrite = %01x\n", ALUop, RegDst, Jump, Branch, MemRead, MemToReg, RegWrite, ALUsrc, MemWrite);
+    // $display("ALUop = %05x\nRegDst = %01x | Jump = %01x | Branch = %01x | MemRead = %01x | MemToReg = %01x | RegWrite = %01x | ALUsrc = %01x | MemWrite = %01x\n", ALUop, RegDst, Jump, Branch, MemRead, MemToReg, RegWrite, ALUsrc, MemWrite);
 
   end //end always
 

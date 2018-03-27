@@ -11,8 +11,6 @@ module Branch_Control(input [2:0] BranchOp, input [31:0] input1, input [31:0] in
   always @(*)
   begin
 
-    equalD = 0;
-
     case(BranchOp)
       3'b001: // BEQ
         begin

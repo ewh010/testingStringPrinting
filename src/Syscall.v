@@ -25,6 +25,9 @@ module Syscall(syscall_control, sysstall, v0, a0,
       if(v0 == 1)
         $display("\n\nSYCALL OUTPUT = %d\n\n", a0);
 
+      else if (v0 == 4)
+        $display("\n\nSYCALL STRING PRINT NOT ENABLED\n\n");
+
       // v0 as 10 indicates an execution kill
       else if(v0 == 10)
       begin

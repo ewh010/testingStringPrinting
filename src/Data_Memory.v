@@ -16,10 +16,10 @@ module Data_Memory(clk, memWrite, memRead, address, writeData, /*SyscallRead,*/
   /* declare outputs */
   output reg [31:0] readData;
 
-
+  /* declare registers */
   reg [31:0] memory[32'h7ffffffc>>2: (32'h7ffffffc>>2)-256]; // define memory from stack pointer shift right 2 to 256 less than that to make room
 
-  always @(*)
+  always @(posedge clk)
   begin
     if (memRead == 1)
       readData = memory[address >> 2]; // at read, set readData to memory at address shifted right 2
