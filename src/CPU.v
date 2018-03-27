@@ -8,7 +8,7 @@
 `include "Get_Jump_Addr.v"
 `include "Control.v"
 `include "MUX.v"
-`include "Equal.v"
+`include "Branch_Control.v"
 `include "Syscall.v"
 `include "ALU.v"
 `include "Registers.v"
@@ -53,14 +53,16 @@ module testbench;
       wire [31:0] And_Input2;
       wire [31:0] RD1_D;
       wire [31:0] RD2_D;
+      wire [2:0] BranchOp;
 
       // registers
       wire [31:0] v0;
       wire [31:0] a0;
       wire [31:0] ra;
+      wire [31:0] sp;
 
       // pipeline signals
-      wire [4:0] EX_D;
+      wire [6:0] EX_D;
       wire [1:0] MEM_D;
       wire [1:0] WB_D;
 
@@ -86,7 +88,7 @@ module testbench;
       wire [31:0] ALUOut_E;
 
       // pipeline signals
-      wire [4:0] EX_E;
+      wire [6:0] EX_E;
       wire [1:0] MEM_E;
       wire [1:0] WB_E;
 
@@ -133,13 +135,13 @@ module testbench;
       Get_Jump_Addr JumpAddr_block(instr_D, PCPlus4_D, jumpAddr);
 
       // mux for JR control
-      Mux_2_1_32bit jrMux(jr_control, PCPlus4_F, ra, jrMux_out);
+      Mux_2_1_32bit jrMux(jr_control, jumpAddr, ra, jrMux_out);
 
       // mux for branch control
-      Mux_2_1_32bit branchMux(PCSrc_D, jrMux_out, PCBranch_D, branch_mux_out);
+      Mux_2_1_32bit branchMux(PCSrc_D, PCPlus4_F, PCBranch_D, branch_mux_out);
 
       // mux for jump control
-      Mux_2_1_32bit jumpMux(jump, branch_mux_out, jumpAddr, Next_PC);
+      Mux_2_1_32bit jumpMux(jump, branch_mux_out, jrMux_out, Next_PC);
 
       // get current pc
       PC PC_block(clk, StallF, Next_PC, PC_F);
@@ -160,10 +162,10 @@ module testbench;
     /* ID Stage */
 
       // get all control signals from instruction
-      Control control_block(instr_D, EX_D, MEM_D, WB_D, jump, BranchD, syscall_control, jr_control, jal_control);
+      Control control_block(instr_D, EX_D, MEM_D, WB_D, jump, BranchD, syscall_control, jr_control, jal_control, BranchOp);
 
       // execute registers block for read data outputs
-      Registers reg_block(clk, jal_control, PC_D+8 /*JAL*/, instr_D[25:21], instr_D[20:16], writeReg_W, Result_W, WB_D[`REGWRITE], RD1_D, RD2_D, v0, a0, ra);
+      Registers reg_block(clk, jal_control, PC_D+8 /*JAL*/, instr_D[25:21], instr_D[20:16], writeReg_W, Result_W, WB_D[`REGWRITE], RD1_D, RD2_D, v0, a0, ra, sp);
 
       // mux for RD1
       Mux_2_1_32bit MuxRD1(ForwardAD, RD1_D, ALUOut_M, And_Input1);
@@ -171,11 +173,11 @@ module testbench;
       // mux for RD2
       Mux_2_1_32bit MuxRD2(ForwardBD, RD2_D, ALUOut_M, And_Input2);
 
-      // equal gate for registers
-      Equal regEqual(And_Input1, And_Input2, EqualD);
+      // branch control module
+      Branch_Control branchControl(BranchOp, And_Input1, And_Input2, EqualD);
 
       // and gate for branch mux control
-      And_Gate branch_control(BranchD, EqualD, PCSrc_D);
+      And_Gate branchAnd(BranchD, EqualD, PCSrc_D);
 
       // sign extend the immediate value
       Sign_Extend_16_32 signExtend_block(instr_D, signImm_D);
@@ -255,7 +257,7 @@ module testbench;
       $dumpfile("testbench.vcd");
       $dumpvars(0,testbench);
 
-      // $monitor($time, " in %m, currPC = %08x, nextPC = %08x, instruction = %08x, ALUOut_E = %08x, ALUOut_M = %08x, ALUOut_W = %08x, readData_M = %08x, readData_W = %08x, EqualD = %01d, PCSrc_D = %01d, StallF = %01d, BranchD=%1d\n", PC_F, Next_PC, instr_F, ALUOut_E, ALUOut_M, ALUOut_W, readData_M, readData_W, EqualD, PCSrc_D, StallF, BranchD);
+      $monitor($time, " in %m, currPC = %08x, nextPC = %08x, instruction = %08x, ALUOut_E = %08x, ALUOut_M = %08x, ALUOut_W = %08x, readData_M = %08x, readData_W = %08x, EqualD = %01d, PCSrc_D = %01d, StallF = %01d, BranchD=%1d, jr_control=%d, jal_control=%d, ra=%08x, sp=%08x\n", PC_F, Next_PC, instr_F, ALUOut_E, ALUOut_M, ALUOut_W, readData_M, readData_W, EqualD, PCSrc_D, StallF, BranchD, jr_control, jal_control, ra, sp);
 
       #5000 $finish;
 

@@ -5,11 +5,14 @@
 
 /* control module: determines control signal values */
 module Control(instr,
-               EX_D, MEM_D, WB_D, Jump, Branch, syscall_control, jr_control, jal_control);
+               EX_D, MEM_D, WB_D, Jump, Branch, syscall_control, jr_control, jal_control, BranchOp);
 
-  // inputs and outputs
+  /* declare inputs */
   input [31:0] instr;
-  output reg [4:0] EX_D;
+
+  /* declare outputs */
+  output reg [2:0] BranchOp;
+  output reg [6:0] EX_D;
   output reg [1:0] MEM_D;
   output reg [1:0] WB_D;
   output reg Jump;
@@ -20,11 +23,9 @@ module Control(instr,
 
   /* declare control signals */
   reg RegDst;
-  // reg Jump;
-  // reg Branch;
   reg MemRead;
   reg MemToReg;
-  reg [2:0] ALUop;
+  reg [4:0] ALUop;
   reg RegWrite;
   reg ALUsrc;
   reg MemWrite;
@@ -35,7 +36,8 @@ module Control(instr,
     Branch = 0;
     MemRead = 0;
     MemToReg = 0;
-    ALUop = 3'b000;
+    ALUop = 5'b00000;
+    BranchOp = 3'b000;
     RegWrite = 0;
     ALUsrc = 0;
     MemWrite = 0;
@@ -56,7 +58,8 @@ module Control(instr,
     Branch = 0;
     MemRead = 0;
     MemToReg = 0;
-    ALUop = 3'b000;
+    ALUop = 5'b00000;
+    BranchOp = 3'b000;
     RegWrite = 0;
     ALUsrc = 0;
     MemWrite = 0;
@@ -70,7 +73,7 @@ module Control(instr,
         begin
           RegWrite = 1;
           ALUsrc = 1;
-          ALUop = 3'b011;
+          ALUop = 5'b011;
         end
 
       `J: // Jump
@@ -86,21 +89,38 @@ module Control(instr,
       `ADDI , `ADDIU: // ADD Immediate
         begin
           RegWrite = 1;
-          ALUop = 3'b010;
+          ALUop = 5'b00010;
           ALUsrc = 1;
+        end
+
+      `ANDI:
+        begin
+          ALUop = 5'b00000;
         end
 
       `ORI: // OR Immediate
         begin
           RegWrite = 1;
-          ALUop = 3'b001;
+          ALUop = 5'b00001;
           ALUsrc = 1;
         end
 
-      `BEQ , `BNE: // Branch on Equal and Not Equal
+      `BEQ: // Branch on Equal
         begin
           Branch = 1;
-          ALUop = 3'b110;
+          BranchOp = 5'b00001;
+        end
+
+      `BNE: // Branch on Not Equal
+        begin
+          Branch = 1;
+          BranchOp = 5'b00100;
+        end
+
+      6'b000001: // BLTZ- Branch Less than  Zero
+        begin
+          Branch = 1;
+          BranchOp = 5'b00110;
         end
 
       `LW: // Load Word
@@ -109,12 +129,19 @@ module Control(instr,
           MemToReg = 1;
           RegWrite = 1;
           ALUsrc = 1;
-          ALUop = 3'b010;
+          ALUop = 5'b00010;
         end
 
       `SW: // Store Word
         begin
-          ALUop = 3'b010;
+          ALUop = 5'b00010;
+          ALUsrc = 1;
+          MemWrite = 1;
+        end
+
+      `SB: // Store Byte
+        begin
+          ALUop = 5'b00010;
           ALUsrc = 1;
           MemWrite = 1;
         end
@@ -126,35 +153,56 @@ module Control(instr,
 
           case (instr[`function])
 
-            `ADD:
-              ALUop = 3'b010;
-
-            `SUB:
-              ALUop = 3'b110;
-
             `AND:
-              ALUop = 3'b000;
+              ALUop = 5'b00000;
 
             `OR:
-              ALUop = 3'b001;
+              ALUop = 5'b00001;
+
+            `ADD , `ADDU:
+              ALUop = 5'b00010;
+
+            `DIV:
+              ALUop = 5'b01010;
+
+            `MFLO:
+              ALUop = 5'b00100;
+
+            `MFHI:
+              ALUop = 5'b00101;
+
+            `SUB , `SUBU:
+              ALUop = 5'b00110;
 
             `SLT:
-              ALUop = 3'b111;
+              ALUop = 5'b00111;
+
+            `SLL:
+              ALUop = 5'b01000;
+
+            `SRA:
+              ALUop = 5'b01001;
 
             `JR:
-            begin
-              Jump = 1; RegWrite = 1;
-              jr_control = 1;
-            end
+              begin
+                Jump = 1; RegWrite = 1;
+                jr_control = 1;
+              end
 
             `SYSCALL:
-            begin
-              syscall_control = 1;
-              RegWrite = 1;
-            end
+              begin
+                syscall_control = 1;
+                RegWrite = 1;
+              end
+
+            `BREAK:
+               begin
+                $display("Break Instruction -- Finish Execution");
+                $finish;
+              end
 
             6'b000000: //NOP
-              ALUop = 3'bxxx;
+              ALUop = 5'bxxxxx;
 
             default:
               $display("R Instruction Not Listed\n");
@@ -177,3 +225,20 @@ module Control(instr,
   end //end always
 
 endmodule
+
+// `BEQZ: // Branch on Equal to Zero
+//   begin
+//     Branch = 1;
+//     BranchOp = 3'b010;
+//   end
+
+// `BLEZ: // Branch Less than Equal to Zero
+//   begin
+//     Branch = 1;
+//     BranchOp = 3'b011;
+//   end
+// `BNEZ: // Branch Not Equal to Zero
+//   begin
+//     Branch = 1;
+//     BranchOp = 3'b101;
+//   end

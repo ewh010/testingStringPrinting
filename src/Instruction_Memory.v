@@ -16,9 +16,9 @@ module Instruction_Memory(currPC,
 
   initial begin
     // $readmemh(`TEST_FILE, mem);
-    $readmemh("../test/add_test/add_test.v", mem);
+    // $readmemh("../test/add_test/add_test.v", mem);
     // $readmemh("../test/hello_world/hello.v", mem);
-    // $readmemh("../test/fibonacci/fib.v", mem);
+    $readmemh("../test/fibonacci/fib.v", mem);
 
     number_instructions = 0; // initial statistic
   end

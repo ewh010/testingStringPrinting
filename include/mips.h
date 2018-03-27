@@ -30,9 +30,9 @@
  *-------------------------------------------------------------------------------------------------*/
 
  // EX Signals
- `define REGDST 4
- `define ALUSRC 3
- `define ALUOP 2:0
+ `define REGDST 6
+ `define ALUSRC 5
+ `define ALUOP 4:0
 
  // MEM Signals
  `define MEMWRITE 1
@@ -141,6 +141,7 @@
 `define JAL      6'b000011
 `define BEQ      6'b000100
 `define BNE      6'b000101
+// `define BNEZ     6'b
 `define BLEZ     6'b000110
 `define BGTZ     6'b000111
 

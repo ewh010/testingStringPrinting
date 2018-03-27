@@ -3,7 +3,7 @@
 
 /* Registers module: reads registers and outputs read data */
 module Registers(clk, jal_control, jal_address, readReg1, readReg2, writeReg, writeData, RegWrite,
-                readData1, readData2, v0, a0, ra);
+                readData1, readData2, v0, a0, ra, sp);
 
   /* declare inputs */
   input clk, jal_control, RegWrite;
@@ -12,7 +12,7 @@ module Registers(clk, jal_control, jal_address, readReg1, readReg2, writeReg, wr
 
   /* declare outputs */
   output reg [31:0] readData1, readData2;
-  output wire [31:0] v0, a0, ra;
+  output wire [31:0] v0, a0, ra, sp;
 
   /* declare registers and variables */
   reg [31:0] registers[0:31];
@@ -28,6 +28,7 @@ module Registers(clk, jal_control, jal_address, readReg1, readReg2, writeReg, wr
   assign v0 = registers[`v0];
   assign a0 = registers[`a0];
   assign ra = registers[`ra];
+  assign sp = registers[`sp];
 
   /* set register outputs*/
   always @(readReg1, readReg2)

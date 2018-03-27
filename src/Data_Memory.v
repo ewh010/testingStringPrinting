@@ -11,7 +11,7 @@ module Data_Memory(clk, memWrite, memRead, address, writeData, /*SyscallRead,*/
   input memRead;
   input [31:0] address;
   input [31:0] writeData;
-  input [31:0] SyscallRead;
+  // input [31:0] SyscallRead;
 
   /* declare outputs */
   output reg [31:0] readData;

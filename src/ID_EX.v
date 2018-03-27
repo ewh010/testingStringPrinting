@@ -6,7 +6,7 @@ module ID_EX(clk, FlushE, EX_D, MEM_D, WB_D, Rs_D, Rt_D, Rd_D, RD1_D, RD2_D, Sig
 
   /* declare inputs */
   input clk, FlushE;
-  input [4:0] EX_D;
+  input [6:0] EX_D;
   input [1:0] MEM_D;
   input [1:0] WB_D;
   input [4:0] Rs_D;
@@ -17,7 +17,7 @@ module ID_EX(clk, FlushE, EX_D, MEM_D, WB_D, Rs_D, Rt_D, Rd_D, RD1_D, RD2_D, Sig
   input [31:0] SignImm_D;
 
   /* declare outputs */
-  output reg [4:0] EX_E;
+  output reg [6:0] EX_E;
   output reg [1:0] MEM_E;
   output reg [1:0] WB_E;
   output reg [4:0] Rs_E;

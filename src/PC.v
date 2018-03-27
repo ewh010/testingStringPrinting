@@ -14,14 +14,14 @@ module PC(clk, StallF, nextPC,
 
   initial
   begin
-      currPC = 32'h00400020;
+      currPC = 32'h00400030;
   end
 
   always @(posedge clk)
   begin
       if(($time != 0) && (StallF != 1)) // don't run if time is 0 or stall
       begin
-        currPC = nextPC;
+        currPC <= nextPC;
       end
   end
 
