@@ -1,11 +1,11 @@
 // Hazard_Unit.v
 
 /* Hazard_Unit module: handles pipeline stalls and forwarding */
-module Hazard_Unit(sycall_control, BranchD, MemReadE, MemtoRegE, RegWriteE, MemReadM, MemtoRegM, RegWriteM, RegWriteW, RsD, RtD, RsE, RtE, WriteRegE, WriteRegM, WriteRegW,
+module Hazard_Unit(sycall_control, PCSrc_D, MemReadE, MemtoRegE, RegWriteE, MemReadM, MemtoRegM, RegWriteM, RegWriteW, RsD, RtD, RsE, RtE, WriteRegE, WriteRegM, WriteRegW,
                   StallF, StallD, FlushE, ForwardAD, ForwardBD, ForwardAE, ForwardBE, sysstall);
 
   // define inputs
-  input sycall_control, BranchD, MemReadE, MemtoRegE, RegWriteE, MemReadM, MemtoRegM, RegWriteM, RegWriteW;
+  input jump, sycall_control, PCSrc_D, MemReadE, MemtoRegE, RegWriteE, MemReadM, MemtoRegM, RegWriteM, RegWriteW;
   input [4:0] RsD, RtD, RsE, RtE, WriteRegE, WriteRegM, WriteRegW;
 
   // define outputs
@@ -35,7 +35,7 @@ module Hazard_Unit(sycall_control, BranchD, MemReadE, MemtoRegE, RegWriteE, MemR
       lwstall = (((RsD == RtE) || (RtD == RtE)) && MemtoRegE);
 
       // branch stall
-      branchstall = ((BranchD && RegWriteE && ((WriteRegE == RsD) || (WriteRegE == RtD))) || (BranchD && MemtoRegM && ((WriteRegM == RsD) || (WriteRegM == RtD))));
+      branchstall = ((PCSrc_D && RegWriteE && ((WriteRegE == RsD) || (WriteRegE == RtD))) || (PCSrc_D && MemtoRegM && ((WriteRegM == RsD) || (WriteRegM == RtD))));
 
       sysstall = ((sycall_control && RegWriteE && ((WriteRegE == `v0) || (WriteRegE == `a0))) || (sycall_control && RegWriteM && ((WriteRegM == `v0) || (WriteRegM == `a0))) || (sycall_control && RegWriteW && ((WriteRegW == `v0) || (WriteRegW == `a0))));
 

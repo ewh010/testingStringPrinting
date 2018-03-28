@@ -2,11 +2,11 @@
 // Registers.v
 
 /* Registers module: reads registers and outputs read data */
-module Registers(clk, jal_control, jal_address, readReg1, readReg2, writeReg, writeData, RegWrite,
+module Registers(clk, jal_control, jal_address, readReg1, readReg2, writeReg, writeData, RegWrite_D, RegWrite_W,
                 readData1, readData2, v0, a0, ra, sp);
 
   /* declare inputs */
-  input clk, jal_control, RegWrite;
+  input clk, jal_control, RegWrite_D, RegWrite_W;
   input [31:0] jal_address, writeData;
   input [4:0] readReg1, readReg2, writeReg;
 
@@ -31,30 +31,29 @@ module Registers(clk, jal_control, jal_address, readReg1, readReg2, writeReg, wr
   assign sp = registers[`sp];
 
   /* set register outputs*/
-  always @(readReg1, readReg2)
+  always @(negedge clk)
   begin
     readData1 = registers[readReg1];
     readData2 = registers[readReg2];
   end
 
   /* write on negative edge of clock */
-  always @(negedge clk)
+  always @(posedge clk)
   begin
-
-    if ((RegWrite == 1) & (writeReg != `zero)) // write on control signal
-    begin
-      if (jal_control == 1) // write to register ra on control signal
-        begin
-          registers[`ra] = jal_address;
-        end
-
-      else // write data to writeReg
-        begin
-          registers[writeReg] = writeData;
-        end
-    end
-
+    #1
+    if ((RegWrite_D == 1) & (jal_control == 1)) // write on control signal
+      begin
+        registers[`ra] = jal_address;
+      end
   end
 
+  /* write on negative edge of clock */
+  always @(posedge clk)
+  begin
+    if ((RegWrite_W == 1) & (writeReg != `zero) & (jal_control != 1)) // write on control signal
+      begin
+        registers[writeReg] = writeData;
+      end
+  end
 
 endmodule

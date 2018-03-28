@@ -126,7 +126,7 @@ module testbench;
     /* Hazard Unit */
 
       // call hazard unit with inputs from all stages
-      Hazard_Unit hazard(syscall_control, BranchD, MEM_E[`MEMREAD], WB_E[`MEMTOREG], WB_E[`REGWRITE], MEM_M[`MEMREAD], WB_M[`MEMTOREG], WB_M[`REGWRITE], WB_W[`REGWRITE], instr_D[25:21], instr_D[20:16], Rs_E, Rt_E, writeReg_E, writeReg_M, writeReg_W, StallF, StallD, FlushE, ForwardAD, ForwardBD, ForwardAE, ForwardBE, sysstall);
+      Hazard_Unit hazard(syscall_control, PCSrc_D, MEM_E[`MEMREAD], WB_E[`MEMTOREG], WB_E[`REGWRITE], MEM_M[`MEMREAD], WB_M[`MEMTOREG], WB_M[`REGWRITE], WB_W[`REGWRITE], instr_D[25:21], instr_D[20:16], Rs_E, Rt_E, writeReg_E, writeReg_M, writeReg_W, StallF, StallD, FlushE, ForwardAD, ForwardBD, ForwardAE, ForwardBE, sysstall);
 
 
     /* IF Stage */
@@ -165,7 +165,7 @@ module testbench;
       Control control_block(instr_D, EX_D, MEM_D, WB_D, jump, BranchD, syscall_control, jr_control, jal_control, BranchOp);
 
       // execute registers block for read data outputs
-      Registers reg_block(clk, jal_control, PC_D+8 /*JAL*/, instr_D[25:21], instr_D[20:16], writeReg_W, Result_W, WB_D[`REGWRITE], RD1_D, RD2_D, v0, a0, ra, sp);
+      Registers reg_block(clk, jal_control, PC_D+8 /*JAL*/, instr_D[25:21], instr_D[20:16], writeReg_W, Result_W, WB_D[`REGWRITE], WB_W[`REGWRITE], RD1_D, RD2_D, v0, a0, ra, sp);
 
       // mux for RD1
       Mux_2_1_32bit MuxRD1(ForwardAD, RD1_D, ALUOut_M, And_Input1);
@@ -192,7 +192,7 @@ module testbench;
     /* Pipeline */
 
       // ID to EX Pipeline
-      ID_EX IdEx(clk, FlushE, EX_D, MEM_D, WB_D, instr_D[25:21], instr_D[20:16], instr_D[15:11], RD1_D, RD2_D, signImm_D, EX_E, MEM_E, WB_E, Rs_E, Rt_E, Rd_E, RD1_E, RD2_E, signImm_E);
+      ID_EX IdEx(clk, jump, FlushE, EX_D, MEM_D, WB_D, instr_D[25:21], instr_D[20:16], instr_D[15:11], RD1_D, RD2_D, signImm_D, EX_E, MEM_E, WB_E, Rs_E, Rt_E, Rd_E, RD1_E, RD2_E, signImm_E);
 
 
     /* EX Stage */

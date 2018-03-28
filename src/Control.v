@@ -5,7 +5,7 @@
 
 /* control module: determines control signal values */
 module Control(instr,
-               EX_D, MEM_D, WB_D, Jump, Branch, syscall_control, jr_control, jal_control, BranchOp, Byte_Warning);
+               EX_D, MEM_D, WB_D, Jump, Branch, syscall_control, jr_control, jal_control, BranchOp/*, Byte_Warning*/);
 
   /* declare inputs */
   input [31:0] instr;
@@ -20,7 +20,7 @@ module Control(instr,
   output reg syscall_control;
   output reg jr_control;
   output reg jal_control;
-  output reg [1:0] Byte_Warning;
+  // output reg [1:0] Byte_Warning;
 
   /* declare control signals */
   reg RegDst;
@@ -48,7 +48,7 @@ module Control(instr,
     EX_D = 0;
     MEM_D = 0;
     WB_D = 0;
-    Byte_Warning = 2'b00;
+    // Byte_Warning = 2'b00;
   end
 
   always @(instr) // case on instruction
@@ -76,16 +76,21 @@ module Control(instr,
           RegWrite = 1;
           ALUsrc = 1;
           ALUop = 5'b011;
+          $display("LUI Instruction");
         end
 
       `J: // Jump
+        begin
           Jump = 1;
+          $display("J Instruction");
+        end
 
       `JAL: // Jump and Link
         begin
           Jump = 1;
           RegWrite = 1;
           jal_control = 1;
+          $display("JAL Instruction");
         end
 
       `ADDI , `ADDIU: // ADD Immediate
@@ -93,11 +98,13 @@ module Control(instr,
           RegWrite = 1;
           ALUop = 5'b00010;
           ALUsrc = 1;
+          $display("ADDI Instruction");
         end
 
       `ANDI:
         begin
           ALUop = 5'b00000;
+          $display("ANDI Instruction");
         end
 
       `ORI: // OR Immediate
@@ -105,24 +112,28 @@ module Control(instr,
           RegWrite = 1;
           ALUop = 5'b00001;
           ALUsrc = 1;
+          $display("ORI Instruction");
         end
 
       `BEQ: // Branch on Equal
         begin
           Branch = 1;
           BranchOp = 5'b00001;
+          $display("BEQ Instruction");
         end
 
       `BNE: // Branch on Not Equal
         begin
           Branch = 1;
           BranchOp = 5'b00100;
+          $display("BNE Instruction");
         end
 
       6'b000001: // BLTZ- Branch Less than  Zero
         begin
           Branch = 1;
           BranchOp = 5'b00110;
+          $display("BLTZ Instruction");
         end
 
       `LW: // Load Word
@@ -132,7 +143,8 @@ module Control(instr,
           RegWrite = 1;
           ALUsrc = 1;
           ALUop = 5'b00010;
-          Byte_Warning = 2'b00;
+          // Byte_Warning = 2'b00;
+          $display("LW Instruction");
         end
 
       `SW: // Store Word
@@ -140,7 +152,8 @@ module Control(instr,
           ALUop = 5'b00010;
           ALUsrc = 1;
           MemWrite = 1;
-          Byte_Warning = 2'b01;
+          // Byte_Warning = 2'b01;
+          $display("SW Instruction");
         end
 
       `SB: // Store Byte
@@ -148,7 +161,8 @@ module Control(instr,
           ALUop = 5'b00010;
           ALUsrc = 1;
           MemWrite = 1;
-          Byte_Warning = 2'b10;
+          // Byte_Warning = 2'b10;
+          $display("SB Instruction");
         end
 
       `SPECIAL: // R-type Instruction
@@ -159,49 +173,84 @@ module Control(instr,
           case (instr[`function])
 
             `AND:
-              ALUop = 5'b00000;
+              begin
+                ALUop = 5'b00000;
+                $display("AND Instruction");
+              end
 
             `OR:
-              ALUop = 5'b00001;
+              begin
+                ALUop = 5'b00001;
+                $display("OR Instruction");
+              end
 
             `ADD , `ADDU:
-              ALUop = 5'b00010;
+              begin
+                ALUop = 5'b00010;
+                $display("ADD Instruction");
+              end
 
             `SUB , `SUBU:
-              ALUop = 5'b00110;
+              begin
+                ALUop = 5'b00110;
+                $display("SUB Instruction");
+              end
 
             `DIV:
-              ALUop = 5'b01010;
+              begin
+                ALUop = 5'b01010;
+                $display("DIV Instruction");
+              end
 
             `MOVZ:
-              ALUop = 5'b01101;
+              begin
+                ALUop = 5'b01101;
+                $display("MOVZ Instruction");
+              end
 
             `MFLO:
-              ALUop = 5'b00100;
+              begin
+                ALUop = 5'b00100;
+                $display("MFLO Instruction");
+              end
 
             `MFHI:
-              ALUop = 5'b00101;
+              begin
+                ALUop = 5'b00101;
+                $display("MFHI Instruction");
+              end
 
             `SLT:
-              ALUop = 5'b00111;
+              begin
+                ALUop = 5'b00111;
+                $display("SLT Instruction");
+              end
 
             `SLL:
-              ALUop = 5'b01000;
+              begin
+                ALUop = 5'b01000;
+                $display("SLL Instruction");
+              end
 
             `SRA:
-              ALUop = 5'b01001;
+              begin
+                ALUop = 5'b01001;
+                $display("SRA Instruction");
+              end
 
             `JR:
               begin
                 Jump = 1;
                 RegWrite = 1;
                 jr_control = 1;
+                $display("JR Instruction");
               end
 
             `SYSCALL:
               begin
                 syscall_control = 1;
                 RegWrite = 1;
+                $display("SYSCALL Instruction");
               end
 
             `BREAK:
@@ -211,7 +260,10 @@ module Control(instr,
               end
 
             6'b000000: //NOP
-              ALUop = 5'bxxxxx;
+              begin
+                ALUop = 5'bxxxxx;
+                $display("NOP Instruction");
+              end
 
             default:
               $display("R Instruction Not Listed\n");
