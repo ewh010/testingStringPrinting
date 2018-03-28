@@ -1,8 +1,8 @@
 // ID_EX.v
 
 /* ID_EX module: handles signals from ID to EX */
-module ID_EX(clk, FlushE, EX_D, MEM_D, WB_D, Rs_D, Rt_D, Rd_D, RD1_D, RD2_D, SignImm_D,
-            EX_E, MEM_E, WB_E, Rs_E, Rt_E, Rd_E, RD1_E, RD2_E, SignImm_E);
+module ID_EX(clk, FlushE, EX_D, MEM_D, WB_D, Rs_D, Rt_D, Rd_D, RD1_D, RD2_D, SignImm_D, Byte_WarningD,
+            EX_E, MEM_E, WB_E, Rs_E, Rt_E, Rd_E, RD1_E, RD2_E, SignImm_E, Byte_WarningE);
 
   /* declare inputs */
   input clk, FlushE;
@@ -15,6 +15,7 @@ module ID_EX(clk, FlushE, EX_D, MEM_D, WB_D, Rs_D, Rt_D, Rd_D, RD1_D, RD2_D, Sig
   input [31:0] RD1_D;
   input [31:0] RD2_D;
   input [31:0] SignImm_D;
+  input [2:0] Byte_WarningD;
 
   /* declare outputs */
   output reg [6:0] EX_E;
@@ -26,6 +27,7 @@ module ID_EX(clk, FlushE, EX_D, MEM_D, WB_D, Rs_D, Rt_D, Rd_D, RD1_D, RD2_D, Sig
   output reg [31:0] RD1_E;
   output reg [31:0] RD2_E;
   output reg [31:0] SignImm_E;
+  output reg [2:0] Byte_WarningE;
 
   /* initialize outputs to zero */
   initial begin
@@ -52,6 +54,7 @@ module ID_EX(clk, FlushE, EX_D, MEM_D, WB_D, Rs_D, Rt_D, Rd_D, RD1_D, RD2_D, Sig
       RD1_E <= 0;
       RD2_E <= 0;
       SignImm_E <= 0;
+      Byte_WarningE <= 0;
     end
     else begin
       // $display("setting EX_E to %3b", EX_D);
@@ -64,6 +67,7 @@ module ID_EX(clk, FlushE, EX_D, MEM_D, WB_D, Rs_D, Rt_D, Rd_D, RD1_D, RD2_D, Sig
       RD1_E <= RD1_D;
       RD2_E <= RD2_D;
       SignImm_E <= SignImm_D;
+      Byte_WarningE <= Byte_WarningD;
     end
   end
 

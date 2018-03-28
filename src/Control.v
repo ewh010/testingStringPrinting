@@ -5,7 +5,7 @@
 
 /* control module: determines control signal values */
 module Control(instr,
-               EX_D, MEM_D, WB_D, Jump, Branch, syscall_control, jr_control, jal_control, BranchOp);
+               EX_D, MEM_D, WB_D, Jump, Branch, syscall_control, jr_control, jal_control, BranchOp, Byte_Warning);
 
   /* declare inputs */
   input [31:0] instr;
@@ -20,6 +20,7 @@ module Control(instr,
   output reg syscall_control;
   output reg jr_control;
   output reg jal_control;
+  output reg [1:0] Byte_Warning;
 
   /* declare control signals */
   reg RegDst;
@@ -47,6 +48,7 @@ module Control(instr,
     EX_D = 0;
     MEM_D = 0;
     WB_D = 0;
+    Byte_Warning = 2'b00;
   end
 
   always @(instr) // case on instruction
@@ -130,6 +132,7 @@ module Control(instr,
           RegWrite = 1;
           ALUsrc = 1;
           ALUop = 5'b00010;
+          Byte_Warning = 2'b00;
         end
 
       `SW: // Store Word
@@ -137,6 +140,7 @@ module Control(instr,
           ALUop = 5'b00010;
           ALUsrc = 1;
           MemWrite = 1;
+          Byte_Warning = 2'b01;
         end
 
       `SB: // Store Byte
@@ -144,6 +148,7 @@ module Control(instr,
           ALUop = 5'b00010;
           ALUsrc = 1;
           MemWrite = 1;
+          Byte_Warning = 2'b10;
         end
 
       `SPECIAL: // R-type Instruction
